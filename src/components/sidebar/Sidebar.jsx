@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaTachometerAlt,
   FaRegSun,
@@ -10,14 +10,24 @@ import {
   FaChevronLeft,
   FaBolt,
 } from "react-icons/fa";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { RxCross1 } from "react-icons/rx";
 
-const Sidebar = () => {
-  return (
+const Sidebar = ({ open, setOpen }) => {
+  return open ? (
     <div className="bg-[#4E73DF] px-[25px] h-screen">
-      <div className="px-[15px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3]">
-        <h1 className="text-white text-[20px] leading-[24px] font-extrabold cursor-pointer">
-          Admin panel
+      <div className="md:px-[15px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3] ">
+        <h1 className="text-white md:text-[20px] leading-[24px] font-extrabold cursor-pointer">
+          Medway ERP
         </h1>
+        {open ? (
+          <RxCross1
+            className="text-white md:text-[50px] text-[30px]"
+            onClick={() => setOpen(!open)}
+          />
+        ) : (
+          <GiHamburgerMenu fontSize={"50px"} className="text-white" />
+        )}
       </div>
       <div className="flex items-center gap-[15px] py-[20px] border-b-[1px] border-[#EDEDED]/[0.3] cursor-pointer">
         <FaTachometerAlt color="white" />
@@ -76,24 +86,8 @@ const Sidebar = () => {
           </p>
         </div>
       </div>
-      <div className="pt-[15px]">
-        <div className="flex items-center justify-center">
-          <div className="h-[40px] w-[40px] bg-[#3C5EC1] rounded-full flex items-center justify-center cursor-pointer">
-            <FaChevronLeft color="white" />
-          </div>
-        </div>
-      </div>
-      <div className="bg-[#395CBF] mt-[15px] flex items-center justify-center flex-col py-[15px] px-[10px] gap-[15px] rounded-[3px]">
-        <FaBolt color="white" />
-        <p className="text-[12px] leading-[18px] font-normal text-white/[0.4] text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, soluta.
-        </p>
-        <button className="bg-[#17A673] text-white flex items-center justify-center h-[30px] w-full rounded-[3px] text-[14px] leading-[21px] font-normal">
-          Upgrade to Pro!
-        </button>
-      </div>
     </div>
-  );
+  ) : null;
 };
 
 export default Sidebar;
