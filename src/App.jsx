@@ -1,12 +1,17 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import { Login } from "./pages/login";
-import Layout from "./components/layout/Layout";
+import { Login, Dashboard } from "./pages";
+import Layout from "./components/layout";
+import NewAdmission from "./pages/admission/new";
+import ViewAdmission from "./pages/admission/view";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/new-admission" element={<NewAdmission />} />
+      <Route path="/view-admission" element={<ViewAdmission />} />
     </Routes>
   );
 }
