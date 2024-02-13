@@ -1,11 +1,8 @@
 import axios from "axios";
-const axiosClient = axios.create({
-  baseURL: `https://api.example.com`,
+export const axiosClient = axios.create({
+  baseURL: `https://coachingmanagement-production.up.railway.app/api/v1/`,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
   },
 });
-export default {
-  axiosClient,
-};

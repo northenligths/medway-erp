@@ -35,6 +35,22 @@ const navigation = [
     renderDropdown: true,
     dropdownName: "Admission",
   },
+  {
+    name: "Batches",
+    href: "#",
+    icon: UsersIcon,
+    current: false,
+    renderDropdown: true,
+    dropdownName: "Batches",
+  },
+  {
+    name: "Courses",
+    href: "#",
+    icon: UsersIcon,
+    current: false,
+    renderDropdown: true,
+    dropdownName: "Courses",
+  },
 ];
 
 const admissionManagementData = [
@@ -43,8 +59,26 @@ const admissionManagementData = [
     href: "/new-admission",
   },
   {
-    name: "New Enquiry",
+    name: "All Enquiries",
     href: "/view-admission",
+  },
+];
+
+const batchesData = [
+  {
+    name: "All Batches",
+    href: "/all-batches",
+  },
+];
+
+const coursesData = [
+  {
+    name: "All Courses",
+    href: "/all-courses",
+  },
+  {
+    name: "Add New Course",
+    href: "/add-course",
   },
 ];
 
@@ -60,19 +94,9 @@ function classNames(...classes) {
 export default function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
-  const [disclosureStates, setDisclosureStates] = useState({
-    "Admission Management": true,
-    Dashboard: false,
-  });
-  const [admissionDisclosureOpen, setAdmissionDisclosureOpen] = useState(false);
-
-  const toggleDisclosure = (name) => {
-    setDisclosureStates((prevState) => ({
-      ...prevState,
-      [name]: !prevState[name],
-    }));
-  };
-
+  const userDetails = localStorage.getItem("userDetails");
+  console.log(JSON.parse(userDetails));
+  const parsedDetails = JSON.parse(userDetails);
   return (
     <>
       <div>
@@ -148,7 +172,6 @@ export default function Layout({ children }) {
                                   item.dropdownName === "Admission" ? (
                                     <Disclosure
                                       as="div"
-                                      open={admissionDisclosureOpen}
                                       className={classNames(
                                         item.current
                                           ? "bg-indigo-700 text-white"
@@ -194,6 +217,61 @@ export default function Layout({ children }) {
                                           );
                                         })}
                                       </Disclosure.Panel>
+                                    </Disclosure>
+                                  ) : (
+                                    <Link
+                                      to={item.href}
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                      )}
+                                    >
+                                      <item.icon
+                                        className={classNames(
+                                          item.current
+                                            ? "text-white"
+                                            : "text-indigo-200 group-hover:text-white",
+                                          "h-6 w-6 shrink-0"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      {item.name}
+                                    </Link>
+                                  )}
+                                </div>
+                                <div>
+                                  {item.renderDropdown &&
+                                  item.dropdownName === "Batches" ? (
+                                    <Disclosure
+                                      as="div"
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group rounded-md p-2 text-sm  font-semibold"
+                                      )}
+                                    >
+                                      <Disclosure.Button
+                                        className={classNames(
+                                          item.current
+                                            ? "bg-indigo-700 text-white"
+                                            : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                        )}
+                                      >
+                                        <item.icon
+                                          className={classNames(
+                                            item.current
+                                              ? "text-white"
+                                              : "text-indigo-200 group-hover:text-white",
+                                            "h-6 w-6 shrink-0"
+                                          )}
+                                          aria-hidden="true"
+                                        />
+                                        Admission Management Details
+                                      </Disclosure.Button>
                                     </Disclosure>
                                   ) : (
                                     <Link
@@ -264,24 +342,174 @@ export default function Layout({ children }) {
                     {navigation.map((item) => (
                       <li key={item.name}>
                         <div>
-                          {item.renderDropdown &&
-                          item.dropdownName === "Admission" ? (
-                            <Disclosure
-                              as="div"
-                              open={admissionDisclosureOpen}
-                              className={classNames(
-                                item.current
-                                  ? "bg-indigo-700 text-white"
-                                  : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                "group rounded-md p-2 text-sm  font-semibold"
+                          <>
+                            {item.renderDropdown &&
+                              item.dropdownName === "Admission" && (
+                                <>
+                                  <Disclosure
+                                    as="div"
+                                    className={classNames(
+                                      item.current
+                                        ? "bg-indigo-700 text-white"
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      "group rounded-md p-2 text-sm  font-semibold"
+                                    )}
+                                  >
+                                    <Disclosure.Button
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                      )}
+                                    >
+                                      <item.icon
+                                        className={classNames(
+                                          item.current
+                                            ? "text-white"
+                                            : "text-indigo-200 group-hover:text-white",
+                                          "h-6 w-6 shrink-0"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      Admission Management Details
+                                    </Disclosure.Button>
+                                    <Disclosure.Panel className="">
+                                      {admissionManagementData.map((item) => {
+                                        return (
+                                          <>
+                                            <div
+                                              className="px-4 py-2 flex items-center cursor-pointer"
+                                              onClick={() =>
+                                                navigate(item.href)
+                                              }
+                                            >
+                                              <FaArrowRight className="text-lg" />
+                                              <p className="px-2">
+                                                {item.name}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                      })}
+                                    </Disclosure.Panel>
+                                  </Disclosure>
+                                </>
                               )}
-                            >
-                              <Disclosure.Button
+                            {item.renderDropdown &&
+                              item.dropdownName === "Batches" && (
+                                <>
+                                  <Disclosure
+                                    as="div"
+                                    className={classNames(
+                                      item.current
+                                        ? "bg-indigo-700 text-white"
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      "group rounded-md p-2 text-sm  font-semibold"
+                                    )}
+                                  >
+                                    <Disclosure.Button
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                      )}
+                                    >
+                                      <item.icon
+                                        className={classNames(
+                                          item.current
+                                            ? "text-white"
+                                            : "text-indigo-200 group-hover:text-white",
+                                          "h-6 w-6 shrink-0"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      Batches
+                                    </Disclosure.Button>
+                                    <Disclosure.Panel className="">
+                                      {batchesData.map((item) => {
+                                        return (
+                                          <>
+                                            <div
+                                              className="px-4 py-2 flex items-center cursor-pointer"
+                                              onClick={() =>
+                                                navigate(item.href)
+                                              }
+                                            >
+                                              <FaArrowRight className="text-lg" />
+                                              <p className="px-2">
+                                                {item.name}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                      })}
+                                    </Disclosure.Panel>
+                                  </Disclosure>
+                                </>
+                              )}
+                            {item.renderDropdown &&
+                              item.dropdownName === "Courses" && (
+                                <>
+                                  <Disclosure
+                                    as="div"
+                                    className={classNames(
+                                      item.current
+                                        ? "bg-indigo-700 text-white"
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      "group rounded-md p-2 text-sm  font-semibold"
+                                    )}
+                                  >
+                                    <Disclosure.Button
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                      )}
+                                    >
+                                      <item.icon
+                                        className={classNames(
+                                          item.current
+                                            ? "text-white"
+                                            : "text-indigo-200 group-hover:text-white",
+                                          "h-6 w-6 shrink-0"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      {item.name}
+                                    </Disclosure.Button>
+                                    <Disclosure.Panel className="">
+                                      {coursesData.map((item) => {
+                                        return (
+                                          <>
+                                            <div
+                                              className="px-4 py-2 flex items-center cursor-pointer"
+                                              onClick={() =>
+                                                navigate(item.href)
+                                              }
+                                            >
+                                              <FaArrowRight className="text-lg" />
+                                              <p className="px-2">
+                                                {item.name}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                      })}
+                                    </Disclosure.Panel>
+                                  </Disclosure>
+                                </>
+                              )}
+                            {!item.renderDropdown && (
+                              <Link
+                                to={item.href}
                                 className={classNames(
                                   item.current
                                     ? "bg-indigo-700 text-white"
                                     : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                  "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                  "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                 )}
                               >
                                 <item.icon
@@ -293,46 +521,10 @@ export default function Layout({ children }) {
                                   )}
                                   aria-hidden="true"
                                 />
-                                Admission Management Details
-                              </Disclosure.Button>
-                              <Disclosure.Panel className="">
-                                {admissionManagementData.map((item) => {
-                                  return (
-                                    <>
-                                      <div
-                                        className="px-4 py-2 flex items-center cursor-pointer"
-                                        onClick={() => navigate(item.href)}
-                                      >
-                                        <FaArrowRight className="text-lg" />
-                                        <p className="px-2">{item.name}</p>
-                                      </div>
-                                    </>
-                                  );
-                                })}
-                              </Disclosure.Panel>
-                            </Disclosure>
-                          ) : (
-                            <Link
-                              to={item.href}
-                              className={classNames(
-                                item.current
-                                  ? "bg-indigo-700 text-white"
-                                  : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                              )}
-                            >
-                              <item.icon
-                                className={classNames(
-                                  item.current
-                                    ? "text-white"
-                                    : "text-indigo-200 group-hover:text-white",
-                                  "h-6 w-6 shrink-0"
-                                )}
-                                aria-hidden="true"
-                              />
-                              {item.name}
-                            </Link>
-                          )}
+                                {item.name}
+                              </Link>
+                            )}
+                          </>
                         </div>
                       </li>
                     ))}
@@ -421,7 +613,7 @@ export default function Layout({ children }) {
                         className="ml-4 text-sm font-semibold leading-6 text-gray-900"
                         aria-hidden="true"
                       >
-                        Tom Cook
+                        {parsedDetails.name}
                       </span>
                       <ChevronDownIcon
                         className="ml-2 h-5 w-5 text-gray-400"
