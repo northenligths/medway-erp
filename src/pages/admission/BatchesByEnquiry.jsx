@@ -1,24 +1,19 @@
 import { useEffect, useState } from "react";
 import Layout from "../../components/layout";
 import { useNavigate } from "react-router";
+import axios from "axios";
 import { Link } from "react-router-dom";
-import { axiosClient } from "../../apiClient";
 
-const ViewAdmission = () => {
+const BatchesByEnquiry = () => {
   const navigate = useNavigate();
-  const [enquiries, setEnquiries] = useState([]);
+  const [batches, setBatches] = useState([]);
   const [loading, setLoading] = useState(false);
-  const token = localStorage.getItem("token");
 
-  const getEnquiries = async () => {
+  const getBatches = async () => {
     setLoading(true);
     try {
-      const res = await axiosClient.get("/enquiry?pageNumber=0&pageSize=20", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setEnquiries(res.data.data.content);
+      const res = await axios.get(`/enquiry/batch/1?pageNumber=0&pageSize=10`);
+      setBatches(res);
     } catch (err) {
       console.log("err", err);
     }
@@ -26,7 +21,7 @@ const ViewAdmission = () => {
   };
 
   useEffect(() => {
-    getEnquiries();
+    getBatches();
   }, []);
   const people = [
     {
@@ -141,12 +136,6 @@ const ViewAdmission = () => {
                     >
                       View Enquiry
                     </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Enroll Student
-                    </th>
 
                     <th
                       scope="col"
@@ -212,4 +201,4 @@ const ViewAdmission = () => {
   );
 };
 
-export default ViewAdmission;
+export default BatchesByEnquiry;

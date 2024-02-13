@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Layout from "../../components/layout";
 
-const NewAdmission = () => {
+const AddStudentByEnquiry = () => {
   const [loading, setLoading] = useState(false);
-  const [enquiries, setEnquries] = useState({
+  const [enquiries, setEnquiries] = useState({
+    studentId: "",
     studentName: "",
     fatherName: "",
     motherName: "",
@@ -12,10 +13,6 @@ const NewAdmission = () => {
     category: "",
     dateOfBirth: "",
     gender: "",
-    schoolName: "",
-    boardName: "",
-    percentage: "",
-    year: "",
     Address: "",
     country: "",
     universityName: "",
@@ -25,7 +22,7 @@ const NewAdmission = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setEnquries((prevUser) => ({
+    setEnquiries((prevUser) => ({
       ...prevUser,
       [name]: value,
     }));
@@ -297,4 +294,4 @@ const NewAdmission = () => {
   );
 };
 
-export default NewAdmission;
+export default AddStudentByEnquiry;

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import Layout from "../../components/layout";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 import { axiosClient } from "../../apiClient";
 
-const ViewAdmission = () => {
+const Enquiry = () => {
   const navigate = useNavigate();
   const [enquiries, setEnquiries] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -13,12 +12,12 @@ const ViewAdmission = () => {
   const getEnquiries = async () => {
     setLoading(true);
     try {
-      const res = await axiosClient.get("/enquiry?pageNumber=0&pageSize=20", {
+      const res = await axiosClient.get(`/enquiry/1`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setEnquiries(res.data.data.content);
+      setEnquiries(res);
     } catch (err) {
       console.log("err", err);
     }
@@ -134,20 +133,6 @@ const ViewAdmission = () => {
                     >
                       Batch Details
                     </th>
-
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      View Enquiry
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Enroll Student
-                    </th>
-
                     <th
                       scope="col"
                       className="relative py-3.5 pl-3 pr-4 sm:pr-0"
@@ -212,4 +197,4 @@ const ViewAdmission = () => {
   );
 };
 
-export default ViewAdmission;
+export default Enquiry;
