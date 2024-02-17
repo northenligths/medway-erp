@@ -5,14 +5,15 @@ import { Oval } from "react-loader-spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const NewAdmission = () => {
-  const [loading, setLoading] = useState(false);
+const AddStudent = () => {
   const token = localStorage.getItem("token");
-
+  const [loading, setLoading] = useState(false);
+  const [batches, setBatches] = useState([]);
+  const navigate = useNavigate();
   const [batchId, setBatchId] = useState();
   const [courses, setCourses] = useState([]);
-  const [batches, setBatches] = useState([]);
-  const [enquiries, setEnquries] = useState({
+  console.log(batchId, "batchId");
+  const [student, setStudent] = useState({
     studentName: "",
     fatherName: "",
     motherName: "",
@@ -20,7 +21,7 @@ const NewAdmission = () => {
     emailId: "",
     category: "",
     dateOfBirth: "",
-    gender: "",
+    gender: "male",
     schoolName: "",
     boardName: "",
     percentage: "",
@@ -29,38 +30,38 @@ const NewAdmission = () => {
     country: "",
     universityName: "",
     professonalCourse: "",
-    leadSource: "",
+    leadSource: "facebook",
   });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setStudent((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+  };
 
   const addStudent = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
       await axiosClient.post(
-        `/enquiry/batch/${batchId}
+        `/student/batch/${batchId}
       `,
-        enquiries,
+        student,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      toast.success("Enquiry Added Successfully");
+      toast("Student Added Successfully");
       //   navigate("/all-batches");
     } catch (err) {
       console.log("err", err);
-      toast.error("Unable to add enquiry");
+      toast.error("Unable to add new student");
     }
     setLoading(false);
-  };
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setEnquries((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-    }));
   };
 
   const getCourses = async () => {
@@ -121,7 +122,7 @@ const NewAdmission = () => {
                   <input
                     type="text"
                     name="studentName"
-                    value={enquiries.studentName}
+                    value={student.studentName}
                     onChange={handleChange}
                     id="first-name"
                     autoComplete="given-name"
@@ -141,7 +142,7 @@ const NewAdmission = () => {
                   <input
                     type="text"
                     name="fatherName"
-                    value={enquiries.fatherName}
+                    value={student.fatherName}
                     onChange={handleChange}
                     id="last-name"
                     autoComplete="family-name"
@@ -160,7 +161,7 @@ const NewAdmission = () => {
                   <input
                     type="text"
                     name="motherName"
-                    value={enquiries.motherName}
+                    value={student.motherName}
                     onChange={handleChange}
                     id="last-name"
                     autoComplete="family-name"
@@ -179,7 +180,7 @@ const NewAdmission = () => {
                   <input
                     type="text"
                     name="country"
-                    value={enquiries.country}
+                    value={student.country}
                     onChange={handleChange}
                     id="last-name"
                     autoComplete="family-name"
@@ -200,7 +201,7 @@ const NewAdmission = () => {
                   <select
                     id="country"
                     name="leadSource"
-                    value={enquiries.leadSource}
+                    value={student.leadSource}
                     onChange={handleChange}
                     autoComplete="country-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
@@ -220,7 +221,7 @@ const NewAdmission = () => {
                   <input
                     id="country"
                     name="category"
-                    value={enquiries.category}
+                    value={student.category}
                     onChange={handleChange}
                     autoComplete="country-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
@@ -241,7 +242,7 @@ const NewAdmission = () => {
                   <input
                     type="date"
                     name="year"
-                    value={enquiries.year}
+                    value={student.year}
                     onChange={handleChange}
                     id="city"
                     autoComplete="address-level2"
@@ -260,7 +261,7 @@ const NewAdmission = () => {
                   <input
                     type="date"
                     name="dateOfBirth"
-                    value={enquiries.dateOfBirth}
+                    value={student.dateOfBirth}
                     onChange={handleChange}
                     id="city"
                     autoComplete="address-level2"
@@ -280,7 +281,7 @@ const NewAdmission = () => {
                   <select
                     id="country"
                     name="gender"
-                    value={enquiries.gender}
+                    value={student.gender}
                     onChange={handleChange}
                     autoComplete="country-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
@@ -301,7 +302,7 @@ const NewAdmission = () => {
                   <input
                     type="email"
                     name="emailId"
-                    value={enquiries.emailId}
+                    value={student.emailId}
                     onChange={handleChange}
                     id="city"
                     autoComplete="address-level2"
@@ -322,7 +323,7 @@ const NewAdmission = () => {
                   <input
                     type="text"
                     name="universityName"
-                    value={enquiries.universityName}
+                    value={student.universityName}
                     onChange={handleChange}
                     id="region"
                     autoComplete="address-level1"
@@ -340,7 +341,7 @@ const NewAdmission = () => {
                 <div className="mt-2">
                   <textarea
                     name="Address"
-                    value={enquiries.Address}
+                    value={student.Address}
                     onChange={handleChange}
                     id="street-address"
                     autoComplete="street-address"
@@ -387,7 +388,7 @@ const NewAdmission = () => {
                   <select
                     id="country"
                     name="professonalCourse"
-                    value={enquiries.professonalCourse}
+                    value={student.professonalCourse}
                     onChange={handleChange}
                     autoComplete="country-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
@@ -416,7 +417,7 @@ const NewAdmission = () => {
                   <input
                     type="text"
                     name="percentage"
-                    value={enquiries.percentage}
+                    value={student.percentage}
                     onChange={handleChange}
                     id="last-name"
                     autoComplete="family-name"
@@ -435,7 +436,7 @@ const NewAdmission = () => {
                   <input
                     type="text"
                     name="schoolName"
-                    value={enquiries.schoolName}
+                    value={student.schoolName}
                     onChange={handleChange}
                     id="last-name"
                     autoComplete="family-name"
@@ -454,7 +455,7 @@ const NewAdmission = () => {
                   <input
                     type="text"
                     name="contactNo"
-                    value={enquiries.contactNo}
+                    value={student.contactNo}
                     onChange={handleChange}
                     id="city"
                     autoComplete="address-level2"
@@ -473,7 +474,7 @@ const NewAdmission = () => {
                   <input
                     id="email"
                     name="boardName"
-                    value={enquiries.boardName}
+                    value={student.boardName}
                     onChange={handleChange}
                     type="text"
                     autoComplete="email"
@@ -498,7 +499,7 @@ const NewAdmission = () => {
                 height={25}
               />
             ) : (
-              "Add Enquiry"
+              "Add Student"
             )}
           </button>
         </div>
@@ -507,4 +508,4 @@ const NewAdmission = () => {
   );
 };
 
-export default NewAdmission;
+export default AddStudent;

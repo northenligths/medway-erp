@@ -185,6 +185,22 @@ const Batches = () => {
                             >
                               Revoke batch
                             </button>
+                            <button
+                              className="border-2 rounded-md px-4 py-2"
+                              onClick={() =>
+                                navigate(`/student-by-batch/${item.batchId}`)
+                              }
+                            >
+                              View Students
+                            </button>
+                            <button
+                              className="border-2 rounded-md px-4 py-2"
+                              onClick={() =>
+                                navigate(`/enquiry-by-batch/${item.batchId}`)
+                              }
+                            >
+                              Enquiries
+                            </button>
                           </div>
                         </td>
                       </tr>

@@ -51,6 +51,14 @@ const navigation = [
     renderDropdown: true,
     dropdownName: "Courses",
   },
+  {
+    name: "Students",
+    href: "#",
+    icon: UsersIcon,
+    current: false,
+    renderDropdown: true,
+    dropdownName: "Students",
+  },
 ];
 
 const admissionManagementData = [
@@ -82,6 +90,17 @@ const coursesData = [
   },
 ];
 
+const students = [
+  {
+    name: "All Students",
+    href: "/students",
+  },
+  {
+    name: "Add Student",
+    href: "/add-student",
+  },
+];
+
 const userNavigation = [
   // { name: "Your profile", href: "" },
   { name: "Sign out", href: "/" },
@@ -95,7 +114,6 @@ export default function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const userDetails = localStorage.getItem("userDetails");
-  console.log(JSON.parse(userDetails));
   const parsedDetails = JSON.parse(userDetails);
   return (
     <>
@@ -196,7 +214,7 @@ export default function Layout({ children }) {
                                           )}
                                           aria-hidden="true"
                                         />
-                                        Admission Management Details
+                                        Enquiry
                                       </Disclosure.Button>
                                       <Disclosure.Panel className="">
                                         {admissionManagementData.map((item) => {
@@ -270,7 +288,62 @@ export default function Layout({ children }) {
                                           )}
                                           aria-hidden="true"
                                         />
-                                        Admission Management Details
+                                        Enquiry
+                                      </Disclosure.Button>
+                                    </Disclosure>
+                                  ) : (
+                                    <Link
+                                      to={item.href}
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                      )}
+                                    >
+                                      <item.icon
+                                        className={classNames(
+                                          item.current
+                                            ? "text-white"
+                                            : "text-indigo-200 group-hover:text-white",
+                                          "h-6 w-6 shrink-0"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      {item.name}
+                                    </Link>
+                                  )}
+                                </div>
+                                <div>
+                                  {item.renderDropdown &&
+                                  item.dropdownName === "Students" ? (
+                                    <Disclosure
+                                      as="div"
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group rounded-md p-2 text-sm  font-semibold"
+                                      )}
+                                    >
+                                      <Disclosure.Button
+                                        className={classNames(
+                                          item.current
+                                            ? "bg-indigo-700 text-white"
+                                            : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                        )}
+                                      >
+                                        <item.icon
+                                          className={classNames(
+                                            item.current
+                                              ? "text-white"
+                                              : "text-indigo-200 group-hover:text-white",
+                                            "h-6 w-6 shrink-0"
+                                          )}
+                                          aria-hidden="true"
+                                        />
+                                        Enquiry{" "}
                                       </Disclosure.Button>
                                     </Disclosure>
                                   ) : (
@@ -372,7 +445,7 @@ export default function Layout({ children }) {
                                         )}
                                         aria-hidden="true"
                                       />
-                                      Admission Management Details
+                                      Enquiry
                                     </Disclosure.Button>
                                     <Disclosure.Panel className="">
                                       {admissionManagementData.map((item) => {
@@ -482,6 +555,59 @@ export default function Layout({ children }) {
                                     </Disclosure.Button>
                                     <Disclosure.Panel className="">
                                       {coursesData.map((item) => {
+                                        return (
+                                          <>
+                                            <div
+                                              className="px-4 py-2 flex items-center cursor-pointer"
+                                              onClick={() =>
+                                                navigate(item.href)
+                                              }
+                                            >
+                                              <FaArrowRight className="text-lg" />
+                                              <p className="px-2">
+                                                {item.name}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                      })}
+                                    </Disclosure.Panel>
+                                  </Disclosure>
+                                </>
+                              )}
+                            {item.renderDropdown &&
+                              item.dropdownName === "Students" && (
+                                <>
+                                  <Disclosure
+                                    as="div"
+                                    className={classNames(
+                                      item.current
+                                        ? "bg-indigo-700 text-white"
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      "group rounded-md p-2 text-sm  font-semibold"
+                                    )}
+                                  >
+                                    <Disclosure.Button
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                      )}
+                                    >
+                                      <item.icon
+                                        className={classNames(
+                                          item.current
+                                            ? "text-white"
+                                            : "text-indigo-200 group-hover:text-white",
+                                          "h-6 w-6 shrink-0"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      {item.name}
+                                    </Disclosure.Button>
+                                    <Disclosure.Panel className="">
+                                      {students.map((item) => {
                                         return (
                                           <>
                                             <div
