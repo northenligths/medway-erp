@@ -37,7 +37,7 @@ const Batches = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast("Deleted Successfully");
+      toast.success("Deleted Successfully");
       getBatches();
     } catch (err) {
       console.log("err", err);
@@ -184,6 +184,22 @@ const Batches = () => {
                               onClick={() => revokeBatch(item.batchId)}
                             >
                               Revoke batch
+                            </button>
+                            <button
+                              className="border-2 rounded-md px-4 py-2"
+                              onClick={() =>
+                                navigate(`/student-by-batch/${item.batchId}`)
+                              }
+                            >
+                              View Students
+                            </button>
+                            <button
+                              className="border-2 rounded-md px-4 py-2"
+                              onClick={() =>
+                                navigate(`/enquiry-by-batch/${item.batchId}`)
+                              }
+                            >
+                              Enquiries
                             </button>
                           </div>
                         </td>

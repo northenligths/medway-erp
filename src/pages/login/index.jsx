@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Oval } from "react-loader-spinner";
 import { useNavigate } from "react-router";
 import { axiosClient } from "../../apiClient";
+import { toast } from "react-toastify";
 export const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -29,6 +30,7 @@ export const Login = () => {
       navigate("/dashboard");
     } catch (err) {
       console.log("err", err);
+      toast.error("Invalid Credentials");
     }
     setLoading(false);
   };

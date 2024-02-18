@@ -11,10 +11,13 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
+  ClipboardDocumentCheckIcon,
+  ComputerDesktopIcon,
 } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
 import { Disclosure } from "@headlessui/react";
@@ -30,7 +33,7 @@ const navigation = [
   {
     name: "Admission Management",
     href: "#",
-    icon: UsersIcon,
+    icon: PencilSquareIcon,
     current: false,
     renderDropdown: true,
     dropdownName: "Admission",
@@ -38,7 +41,7 @@ const navigation = [
   {
     name: "Batches",
     href: "#",
-    icon: UsersIcon,
+    icon: ClipboardDocumentCheckIcon,
     current: false,
     renderDropdown: true,
     dropdownName: "Batches",
@@ -46,10 +49,18 @@ const navigation = [
   {
     name: "Courses",
     href: "#",
-    icon: UsersIcon,
+    icon: ComputerDesktopIcon,
     current: false,
     renderDropdown: true,
     dropdownName: "Courses",
+  },
+  {
+    name: "Students",
+    href: "#",
+    icon: UsersIcon,
+    current: false,
+    renderDropdown: true,
+    dropdownName: "Students",
   },
 ];
 
@@ -82,6 +93,17 @@ const coursesData = [
   },
 ];
 
+const students = [
+  {
+    name: "All Students",
+    href: "/students",
+  },
+  {
+    name: "Add Student",
+    href: "/add-student",
+  },
+];
+
 const userNavigation = [
   // { name: "Your profile", href: "" },
   { name: "Sign out", href: "/" },
@@ -95,7 +117,6 @@ export default function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const userDetails = localStorage.getItem("userDetails");
-  console.log(JSON.parse(userDetails));
   const parsedDetails = JSON.parse(userDetails);
   return (
     <>
@@ -167,135 +188,220 @@ export default function Layout({ children }) {
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
                               <li key={item.name}>
-                                <div>
-                                  {item.renderDropdown &&
-                                  item.dropdownName === "Admission" ? (
-                                    <Disclosure
-                                      as="div"
-                                      className={classNames(
-                                        item.current
-                                          ? "bg-indigo-700 text-white"
-                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                        "group rounded-md p-2 text-sm  font-semibold"
-                                      )}
-                                    >
-                                      <Disclosure.Button
+                                {item.renderDropdown &&
+                                  item.dropdownName === "Admission" && (
+                                    <>
+                                      <Disclosure
+                                        as="div"
                                         className={classNames(
                                           item.current
                                             ? "bg-indigo-700 text-white"
                                             : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                          "group rounded-md p-2 text-sm  font-semibold"
                                         )}
                                       >
-                                        <item.icon
+                                        <Disclosure.Button
                                           className={classNames(
                                             item.current
-                                              ? "text-white"
-                                              : "text-indigo-200 group-hover:text-white",
-                                            "h-6 w-6 shrink-0"
+                                              ? "bg-indigo-700 text-white"
+                                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                            "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
                                           )}
-                                          aria-hidden="true"
-                                        />
-                                        Admission Management Details
-                                      </Disclosure.Button>
-                                      <Disclosure.Panel className="">
-                                        {admissionManagementData.map((item) => {
-                                          return (
-                                            <>
-                                              <div
-                                                className="px-4 py-2 flex items-center"
-                                                onClick={() =>
-                                                  navigate(item.href)
-                                                }
-                                              >
-                                                <FaArrowRight className="text-lg" />
-                                                <p className="px-2">
-                                                  {item.name}
-                                                </p>
-                                              </div>
-                                            </>
-                                          );
-                                        })}
-                                      </Disclosure.Panel>
-                                    </Disclosure>
-                                  ) : (
-                                    <Link
-                                      to={item.href}
-                                      className={classNames(
-                                        item.current
-                                          ? "bg-indigo-700 text-white"
-                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                        "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                                      )}
-                                    >
-                                      <item.icon
-                                        className={classNames(
-                                          item.current
-                                            ? "text-white"
-                                            : "text-indigo-200 group-hover:text-white",
-                                          "h-6 w-6 shrink-0"
-                                        )}
-                                        aria-hidden="true"
-                                      />
-                                      {item.name}
-                                    </Link>
+                                        >
+                                          <item.icon
+                                            className={classNames(
+                                              item.current
+                                                ? "text-white"
+                                                : "text-indigo-200 group-hover:text-white",
+                                              "h-6 w-6 shrink-0"
+                                            )}
+                                            aria-hidden="true"
+                                          />
+                                          Enquiry
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="">
+                                          {admissionManagementData.map(
+                                            (item) => {
+                                              return (
+                                                <>
+                                                  <div
+                                                    className="px-4 py-2 flex items-center cursor-pointer"
+                                                    onClick={() =>
+                                                      navigate(item.href)
+                                                    }
+                                                  >
+                                                    <FaArrowRight className="text-lg" />
+                                                    <p className="px-2">
+                                                      {item.name}
+                                                    </p>
+                                                  </div>
+                                                </>
+                                              );
+                                            }
+                                          )}
+                                        </Disclosure.Panel>
+                                      </Disclosure>
+                                    </>
                                   )}
-                                </div>
-                                <div>
-                                  {item.renderDropdown &&
-                                  item.dropdownName === "Batches" ? (
-                                    <Disclosure
-                                      as="div"
-                                      className={classNames(
-                                        item.current
-                                          ? "bg-indigo-700 text-white"
-                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                        "group rounded-md p-2 text-sm  font-semibold"
-                                      )}
-                                    >
-                                      <Disclosure.Button
+                                {item.renderDropdown &&
+                                  item.dropdownName === "Batches" && (
+                                    <>
+                                      <Disclosure
+                                        as="div"
                                         className={classNames(
                                           item.current
                                             ? "bg-indigo-700 text-white"
                                             : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                          "group rounded-md p-2 text-sm  font-semibold"
                                         )}
                                       >
-                                        <item.icon
+                                        <Disclosure.Button
                                           className={classNames(
                                             item.current
-                                              ? "text-white"
-                                              : "text-indigo-200 group-hover:text-white",
-                                            "h-6 w-6 shrink-0"
+                                              ? "bg-indigo-700 text-white"
+                                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                            "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
                                           )}
-                                          aria-hidden="true"
-                                        />
-                                        Admission Management Details
-                                      </Disclosure.Button>
-                                    </Disclosure>
-                                  ) : (
-                                    <Link
-                                      to={item.href}
-                                      className={classNames(
-                                        item.current
-                                          ? "bg-indigo-700 text-white"
-                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                        "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                                      )}
-                                    >
-                                      <item.icon
+                                        >
+                                          <item.icon
+                                            className={classNames(
+                                              item.current
+                                                ? "text-white"
+                                                : "text-indigo-200 group-hover:text-white",
+                                              "h-6 w-6 shrink-0"
+                                            )}
+                                            aria-hidden="true"
+                                          />
+                                          Batches
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="">
+                                          {batchesData.map((item) => {
+                                            return (
+                                              <>
+                                                <div
+                                                  className="px-4 py-2 flex items-center cursor-pointer"
+                                                  onClick={() =>
+                                                    navigate(item.href)
+                                                  }
+                                                >
+                                                  <FaArrowRight className="text-lg" />
+                                                  <p className="px-2">
+                                                    {item.name}
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          })}
+                                        </Disclosure.Panel>
+                                      </Disclosure>
+                                    </>
+                                  )}
+                                {item.renderDropdown &&
+                                  item.dropdownName === "Courses" && (
+                                    <>
+                                      <Disclosure
+                                        as="div"
                                         className={classNames(
                                           item.current
-                                            ? "text-white"
-                                            : "text-indigo-200 group-hover:text-white",
-                                          "h-6 w-6 shrink-0"
+                                            ? "bg-indigo-700 text-white"
+                                            : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                          "group rounded-md p-2 text-sm  font-semibold"
                                         )}
-                                        aria-hidden="true"
-                                      />
-                                      {item.name}
-                                    </Link>
+                                      >
+                                        <Disclosure.Button
+                                          className={classNames(
+                                            item.current
+                                              ? "bg-indigo-700 text-white"
+                                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                            "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                          )}
+                                        >
+                                          <item.icon
+                                            className={classNames(
+                                              item.current
+                                                ? "text-white"
+                                                : "text-indigo-200 group-hover:text-white",
+                                              "h-6 w-6 shrink-0"
+                                            )}
+                                            aria-hidden="true"
+                                          />
+                                          {item.name}
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="">
+                                          {coursesData.map((item) => {
+                                            return (
+                                              <>
+                                                <div
+                                                  className="px-4 py-2 flex items-center cursor-pointer"
+                                                  onClick={() =>
+                                                    navigate(item.href)
+                                                  }
+                                                >
+                                                  <FaArrowRight className="text-lg" />
+                                                  <p className="px-2">
+                                                    {item.name}
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          })}
+                                        </Disclosure.Panel>
+                                      </Disclosure>
+                                    </>
                                   )}
-                                </div>
+                                {item.renderDropdown &&
+                                  item.dropdownName === "Students" && (
+                                    <>
+                                      <Disclosure
+                                        as="div"
+                                        className={classNames(
+                                          item.current
+                                            ? "bg-indigo-700 text-white"
+                                            : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                          "group rounded-md p-2 text-sm  font-semibold"
+                                        )}
+                                      >
+                                        <Disclosure.Button
+                                          className={classNames(
+                                            item.current
+                                              ? "bg-indigo-700 text-white"
+                                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                            "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                          )}
+                                        >
+                                          <item.icon
+                                            className={classNames(
+                                              item.current
+                                                ? "text-white"
+                                                : "text-indigo-200 group-hover:text-white",
+                                              "h-6 w-6 shrink-0"
+                                            )}
+                                            aria-hidden="true"
+                                          />
+                                          {item.name}
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="">
+                                          {students.map((item) => {
+                                            return (
+                                              <>
+                                                <div
+                                                  className="px-4 py-2 flex items-center cursor-pointer"
+                                                  onClick={() =>
+                                                    navigate(item.href)
+                                                  }
+                                                >
+                                                  <FaArrowRight className="text-lg" />
+                                                  <p className="px-2">
+                                                    {item.name}
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          })}
+                                        </Disclosure.Panel>
+                                      </Disclosure>
+                                    </>
+                                  )}
                               </li>
                             ))}
                           </ul>
@@ -372,7 +478,7 @@ export default function Layout({ children }) {
                                         )}
                                         aria-hidden="true"
                                       />
-                                      Admission Management Details
+                                      Enquiry
                                     </Disclosure.Button>
                                     <Disclosure.Panel className="">
                                       {admissionManagementData.map((item) => {
@@ -482,6 +588,59 @@ export default function Layout({ children }) {
                                     </Disclosure.Button>
                                     <Disclosure.Panel className="">
                                       {coursesData.map((item) => {
+                                        return (
+                                          <>
+                                            <div
+                                              className="px-4 py-2 flex items-center cursor-pointer"
+                                              onClick={() =>
+                                                navigate(item.href)
+                                              }
+                                            >
+                                              <FaArrowRight className="text-lg" />
+                                              <p className="px-2">
+                                                {item.name}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                      })}
+                                    </Disclosure.Panel>
+                                  </Disclosure>
+                                </>
+                              )}
+                            {item.renderDropdown &&
+                              item.dropdownName === "Students" && (
+                                <>
+                                  <Disclosure
+                                    as="div"
+                                    className={classNames(
+                                      item.current
+                                        ? "bg-indigo-700 text-white"
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      "group rounded-md p-2 text-sm  font-semibold"
+                                    )}
+                                  >
+                                    <Disclosure.Button
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                      )}
+                                    >
+                                      <item.icon
+                                        className={classNames(
+                                          item.current
+                                            ? "text-white"
+                                            : "text-indigo-200 group-hover:text-white",
+                                          "h-6 w-6 shrink-0"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      {item.name}
+                                    </Disclosure.Button>
+                                    <Disclosure.Panel className="">
+                                      {students.map((item) => {
                                         return (
                                           <>
                                             <div
@@ -636,6 +795,7 @@ export default function Layout({ children }) {
                           {({ active }) => (
                             <a
                               href={item.href}
+                              onClick={() => localStorage.clear("token")}
                               className={classNames(
                                 active ? "bg-gray-50" : "",
                                 "block px-3 py-1 text-sm leading-6 text-gray-900"

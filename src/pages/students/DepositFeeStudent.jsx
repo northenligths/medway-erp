@@ -1,72 +1,74 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../../components/layout";
-import { Oval } from "react-loader-spinner";
 import { axiosClient } from "../../apiClient";
+import { Oval } from "react-loader-spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const AddBatch = () => {
+const DepositFeeStudent = () => {
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
-  const navigate = useNavigate();
   const params = useParams();
-  const [batches, setBatches] = useState({
-    batchName: "",
-    startDate: "",
-    batchEndDate: "",
-    batchFees: "",
+
+  const [fees, setFees] = useState({
+    amount: "",
+    modeOfPayment: "",
+    tutionFees: "",
+    transactionId: "",
+    numberOfInstallment: "",
+    paymentDate: "",
   });
+
+  const depositFee = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      await axiosClient.post(`/fee/student/${params.id} `, fees, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Fees Deposited Successfully");
+      //   navigate("/all-batches");
+    } catch (err) {
+      console.log("err", err);
+      toast.error("Unable to deposit fee");
+    }
+    setLoading(false);
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setBatches((prevUser) => ({
+    setFees((prevUser) => ({
       ...prevUser,
       [name]: value,
     }));
   };
 
-  const addBatch = async (e) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      await axiosClient.post(`/batch/courseId/${params.id}`, batches, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      toast.success("Batch Created Successfully");
-      navigate("/all-batches");
-    } catch (err) {
-      console.log("err", err);
-      toast.error("Unable to create new batch");
-    }
-    setLoading(false);
-  };
-
   return (
     <Layout>
-      <form onSubmit={addBatch}>
+      <form onSubmit={depositFee}>
         <div className="space-y-12">
           <div className="">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
-              New Batch
+              Deposit Fee
             </h2>
           </div>
 
           <div className="border-b border-gray-900/10 pb-12">
             <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3 md:col-span-3">
+              <div className="sm:col-span-3 md:col-span-4">
                 <label
                   htmlFor="first-name"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Batch Name
+                  Amount
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    name="batchName"
-                    value={batches.batchName}
+                    name="amount"
+                    value={fees.amount}
                     onChange={handleChange}
                     id="first-name"
                     autoComplete="given-name"
@@ -75,18 +77,18 @@ const AddBatch = () => {
                 </div>
               </div>
 
-              <div className="sm:col-span-3 md:col-span-3">
+              <div className="sm:col-span-3 md:col-span-4">
                 <label
                   htmlFor="last-name"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Start Date
+                  Mode of Payment
                 </label>
                 <div className="mt-2">
                   <input
-                    type="date"
-                    name="startDate"
-                    value={batches.startDate}
+                    type="text"
+                    name="modeOfPayment"
+                    value={fees.modeOfPayment}
                     onChange={handleChange}
                     id="last-name"
                     autoComplete="family-name"
@@ -94,40 +96,80 @@ const AddBatch = () => {
                   />
                 </div>
               </div>
-              <div className="sm:col-span-2 sm:col-start-1 md:col-span-3">
+              <div className="sm:col-span-3 md:col-span-4">
                 <label
-                  htmlFor="city"
+                  htmlFor="last-name"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  End Date
+                  Installments
                 </label>
                 <div className="mt-2">
                   <input
-                    type="date"
-                    name="batchEndDate"
-                    value={batches.batchEndDate}
+                    type="text"
+                    name="numberOfInstallment"
+                    value={fees.numberOfInstallment}
                     onChange={handleChange}
-                    id="city"
-                    autoComplete="address-level2"
+                    id="last-name"
+                    autoComplete="family-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
-              <div className="sm:col-span-4 md:col-span-3">
+            </div>
+            <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-3 md:col-span-4">
                 <label
-                  htmlFor="email"
+                  htmlFor="last-name"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Batch Fees
+                  Payment Date
                 </label>
                 <div className="mt-2">
                   <input
-                    id="email"
-                    name="batchFees"
-                    type="text"
-                    value={batches.batchFees}
+                    type="date"
+                    name="paymentDate"
+                    value={fees.paymentDate}
                     onChange={handleChange}
-                    autoComplete="email"
+                    id="last-name"
+                    autoComplete="family-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-3 md:col-span-4">
+                <label
+                  htmlFor="last-name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Tution Fees
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="tutionFees"
+                    value={fees.tutionFees}
+                    onChange={handleChange}
+                    id="last-name"
+                    autoComplete="family-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-3 md:col-span-4">
+                <label
+                  htmlFor="last-name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Transaction Id
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="transactionId"
+                    value={fees.transactionId}
+                    onChange={handleChange}
+                    id="last-name"
+                    autoComplete="family-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -149,7 +191,7 @@ const AddBatch = () => {
                 height={25}
               />
             ) : (
-              "Add Batch"
+              "Deposit Fee"
             )}
           </button>
         </div>
@@ -158,4 +200,4 @@ const AddBatch = () => {
   );
 };
 
-export default AddBatch;
+export default DepositFeeStudent;

@@ -3,46 +3,49 @@ import Layout from "../../components/layout";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { axiosClient } from "../../apiClient";
-import { Oval } from "react-loader-spinner";
 import { ImBin } from "react-icons/im";
-import { FaRegEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
-
-const ViewAdmission = () => {
+import { useParams } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
+import { FaRegEdit } from "react-icons/fa";
+const Students = () => {
   const navigate = useNavigate();
-  const [enquiries, setEnquiries] = useState([]);
+  const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const params = useParams();
   const token = localStorage.getItem("token");
 
-  const getEnquiries = async () => {
+  const getStudents = async () => {
     setLoading(true);
     try {
-      const res = await axiosClient.get("/enquiry?pageNumber=0&pageSize=20", {
+      const res = await axiosClient.get("student?pageNumber=0&pageSize=20 ", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setEnquiries(res.data.data.content);
+      setStudents(res.data.data.content);
     } catch (err) {
       console.log("err", err);
     }
     setLoading(false);
   };
-  const deleteEnquiry = async (id) => {
+
+  const deleteStudent = async (id) => {
     try {
-      await axiosClient.delete(`enquiry/${id}`, {
+      await axiosClient.delete(`batch/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast.success("Deleted Successfully");
-      getEnquiries();
+      toast("Deleted Successfully");
+      getStudents();
     } catch (err) {
       console.log("err", err);
     }
   };
+
   useEffect(() => {
-    getEnquiries();
+    getStudents();
   }, []);
 
   return (
@@ -51,17 +54,8 @@ const ViewAdmission = () => {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-base font-semibold leading-6 text-gray-900">
-              All Enquiries
+              Batches By Course
             </h1>
-          </div>
-          <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-            <button
-              onClick={() => navigate("/new-admission")}
-              type="button"
-              className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Add Enquiry
-            </button>
           </div>
         </div>
         <div className="mt-8 flow-root">
@@ -74,7 +68,13 @@ const ViewAdmission = () => {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                     >
-                      Enquiry Id
+                      Student Status
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                    >
+                      Student Id
                     </th>
                     <th
                       scope="col"
@@ -98,7 +98,7 @@ const ViewAdmission = () => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Contact Number
+                      Contact No.
                     </th>
                     <th
                       scope="col"
@@ -110,7 +110,7 @@ const ViewAdmission = () => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Date of birth
+                      Date of Birth
                     </th>
                     <th
                       scope="col"
@@ -136,24 +136,83 @@ const ViewAdmission = () => {
                     >
                       Batch Name
                     </th>
-
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Batch Start Date
+                      Batch Id
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Batch End Date
+                      Start Date
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      End Date
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
                       Batch Fees
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Batch Status
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Discount
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Due
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Percentage
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Given Installments
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Library Fees
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Payable Fees
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Tution Fees
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Total Installments
                     </th>
                     <th
                       scope="col"
@@ -175,10 +234,15 @@ const ViewAdmission = () => {
                       />{" "}
                     </div>
                   ) : (
-                    enquiries.map((item) => (
-                      <tr key={item.enquiryId}>
+                    students?.map((item) => (
+                      <tr key={item.batchId}>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          <div className="text-gray-900">{item.enquiryId}</div>
+                          <div className="text-gray-900">
+                            {item.studentStatus}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          <div className="text-gray-900">{item.studentId}</div>
                         </td>
 
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
@@ -212,6 +276,9 @@ const ViewAdmission = () => {
                           {item.batchName.batchName}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.batchName.batchId}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.batchName.startDate}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
@@ -221,29 +288,70 @@ const ViewAdmission = () => {
                           {item.batchName.batchFees}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.batchName.batchStatus}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item?.feesDetails.discountAmount}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item?.feesDetails.dueAmount === true
+                            ? "Pending"
+                            : "Clear"}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item?.percentage}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item?.feesDetails.givenInsallments}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item?.feesDetails.libraryFees}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item?.feesDetails.payableFees}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item?.feesDetails.remTutionFees}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item?.feesDetails.totalInstallments}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="flex items-center gap-8">
-                            {/* <FaEye
-                            className="cursor-pointer"
-                            color="black"
-                            fontSize={"20px"}
-                            onClick={() => navigate(`/course/${item.courseId}`)}
-                          /> */}
                             <ImBin
                               className="cursor-pointer"
                               color="red"
                               fontSize={"20px"}
-                              onClick={() => deleteEnquiry(item.enquiryId)}
+                              onClick={() => deleteStudent(item.studentId)}
                             />
-                            {/* <FaRegEdit
+                            <FaRegEdit
                               className="cursor-pointer"
                               color="black"
                               fontSize={"20px"}
                               onClick={() =>
-                                navigate(`/edit-batch/${item.batchId}`, {
+                                navigate(`/update-student/${item.studentId}`, {
                                   state: item,
                                 })
                               }
-                            /> */}
+                            />
+                            <button
+                              className="border-2 rounded-md px-4 py-2"
+                              onClick={() =>
+                                navigate(`/deposit-fee/${item.studentId}`)
+                              }
+                            >
+                              Deposit Fees
+                            </button>
+                            <button
+                              className="border-2 rounded-md px-4 py-2"
+                              onClick={() =>
+                                navigate(
+                                  `/payment-by-student/${item.studentId}`
+                                )
+                              }
+                            >
+                              View Payments
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -259,4 +367,4 @@ const ViewAdmission = () => {
   );
 };
 
-export default ViewAdmission;
+export default Students;

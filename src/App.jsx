@@ -12,6 +12,13 @@ import Course from "./pages/courses/Course";
 import EditCourse from "./pages/courses/EditCourse";
 import EditBatch from "./pages/batches/EditBatch";
 import BatchesByCourse from "./pages/batches/BatchesByCourse";
+import StudentByBatch from "./pages/batches/StudentByBatch";
+import Students from "./pages/students/Students";
+import AddStudent from "./pages/students/AddStudent";
+import EnquiryByBatch from "./pages/batches/EnquiryByBatch";
+import UpdateStudent from "./pages/students/UpdateStudent";
+import DepositFeeStudent from "./pages/students/DepositFeeStudent";
+import PaymentByStudent from "./pages/students/PaymentByStudent";
 
 function App() {
   return (
@@ -29,6 +36,13 @@ function App() {
       <Route path="/edit-course/:id" element={<EditCourse />} />
       <Route path="/edit-batch/:id" element={<EditBatch />} />
       <Route path="/batch-by-course/:id" element={<BatchesByCourse />} />
+      <Route path="/student-by-batch/:id" element={<StudentByBatch />} />
+      <Route path="/students" element={<Students />} />
+      <Route path="/add-student" element={<AddStudent />} />
+      <Route path="/enquiry-by-batch/:id" element={<EnquiryByBatch />} />
+      <Route path="/update-student/:id" element={<UpdateStudent />} />
+      <Route path="/deposit-fee/:id" element={<DepositFeeStudent />} />
+      <Route path="/payment-by-student/:id" element={<PaymentByStudent />} />
     </Routes>
   );
 }
