@@ -31,7 +31,7 @@ const AddCourse = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast("Course Created Successfully");
+      toast.success("Course Created Successfully");
       navigate("/all-courses");
     } catch (err) {
       console.log("err", err);

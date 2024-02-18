@@ -77,7 +77,7 @@ const PaymentByStudent = () => {
               Fees
             </h1>
 
-            <div className="flex gap-4 items-center">
+            {/* <div className="flex gap-4 items-center">
               <div className="flex-col flex items-center">
                 <label className="py-2">Start Date</label>
                 <input
@@ -104,7 +104,7 @@ const PaymentByStudent = () => {
                   Apply Filter
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="mt-8 flow-root">

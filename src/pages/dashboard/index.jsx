@@ -19,7 +19,7 @@ export const Dashboard = () => {
             <span className="text-xl font-bold">50</span>
           </div>
         </div>
-        <div className="bg-white shadow-md flex items-center justify-center hover:scale-110  transition duration-500 cursor-pointer">
+        {/* <div className="bg-white shadow-md flex items-center justify-center hover:scale-110  transition duration-500 cursor-pointer">
           <div>
             <PiChalkboardTeacherLight className="text-[200px]" />
           </div>
@@ -51,7 +51,7 @@ export const Dashboard = () => {
             </p>
             <span className="text-xl font-bold">50</span>
           </div>
-        </div>
+        </div> */}
       </div>
     </Layout>
   );

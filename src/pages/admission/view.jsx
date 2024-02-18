@@ -35,7 +35,7 @@ const ViewAdmission = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast("Deleted Successfully");
+      toast.success("Deleted Successfully");
       getEnquiries();
     } catch (err) {
       console.log("err", err);

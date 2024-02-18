@@ -34,7 +34,7 @@ const AddBatch = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast("Batch Created Successfully");
+      toast.success("Batch Created Successfully");
       navigate("/all-batches");
     } catch (err) {
       console.log("err", err);

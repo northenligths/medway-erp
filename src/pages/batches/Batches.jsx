@@ -37,7 +37,7 @@ const Batches = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast("Deleted Successfully");
+      toast.success("Deleted Successfully");
       getBatches();
     } catch (err) {
       console.log("err", err);
