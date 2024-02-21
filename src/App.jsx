@@ -25,7 +25,7 @@ import StudentsByDiscount from "./pages/discounts/StudentsByDiscount";
 import UpdateDiscount from "./pages/discounts/UpdateDiscount";
 import Library from "./pages/library/Library";
 import AddLibrary from "./pages/students/AddLibrary";
-import LibraryByStudent from "./pages/students/LibraryBYStuduent";
+import LibraryByStudent from "./pages/students/LibraryByStuduent";
 import AddVoucher from "./pages/vouchers/AddVoucher";
 import Vouchers from "./pages/vouchers/Vouchers";
 import UpdateVoucher from "./pages/vouchers/UpdateVoucher";
