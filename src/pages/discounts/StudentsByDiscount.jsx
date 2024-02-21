@@ -8,8 +8,7 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 import { FaRegEdit } from "react-icons/fa";
-import { FaEye } from "react-icons/fa";
-const Students = () => {
+const StudentsByDiscount = () => {
   const navigate = useNavigate();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -19,31 +18,16 @@ const Students = () => {
   const getStudents = async () => {
     setLoading(true);
     try {
-      const res = await axiosClient.get("student?pageNumber=0&pageSize=20 ", {
+      const res = await axiosClient.get(`/student/discount/${params.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setStudents(res.data.data.content);
+      setStudents([res.data.data]);
     } catch (err) {
       console.log("err", err);
     }
     setLoading(false);
-  };
-
-  const deleteStudent = async (id) => {
-    try {
-      await axiosClient.delete(`student/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      toast.success("Deleted Successfully");
-      getStudents();
-    } catch (err) {
-      console.log("err", err);
-      toast.error("Unable to delete please try again");
-    }
   };
 
   useEffect(() => {
@@ -56,7 +40,7 @@ const Students = () => {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-base font-semibold leading-6 text-gray-900">
-              Students
+              Student By Discount
             </h1>
           </div>
         </div>
@@ -216,12 +200,6 @@ const Students = () => {
                     >
                       Total Installments
                     </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Actions
-                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
@@ -318,105 +296,6 @@ const Students = () => {
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item?.feesDetails.totalInstallments}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          <>
-                            <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
-                              <div className="sm:col-span-3 md:col-span-4">
-                                <ImBin
-                                  className="cursor-pointer"
-                                  color="red"
-                                  fontSize={"20px"}
-                                  onClick={() => deleteStudent(item.studentId)}
-                                />
-                              </div>
-                              <div className="sm:col-span-3 md:col-span-4">
-                                <FaRegEdit
-                                  className="cursor-pointer"
-                                  color="black"
-                                  fontSize={"20px"}
-                                  onClick={() =>
-                                    navigate(
-                                      `/update-student/${item.studentId}`,
-                                      {
-                                        state: item,
-                                      }
-                                    )
-                                  }
-                                />
-                              </div>
-                              <div className="sm:col-span-3 md:col-span-4">
-                                <FaEye
-                                  className="cursor-pointer"
-                                  color="black"
-                                  fontSize={"20px"}
-                                  onClick={() =>
-                                    navigate(`/student/${item.studentId}`)
-                                  }
-                                />
-                              </div>
-                            </div>
-                            <div className="mt-10 grid md:grid-cols-12 gap-x-8 gap-y-8 sm:grid-cols-6">
-                              <div className="sm:col-span-3 md:col-span-4">
-                                <button
-                                  className="border-2 rounded-md px-4 py-2"
-                                  onClick={() =>
-                                    navigate(`/deposit-fee/${item.studentId}`)
-                                  }
-                                >
-                                  Deposit Fees
-                                </button>
-                              </div>
-                              <div className="sm:col-span-3 md:col-span-4">
-                                <button
-                                  className="border-2 rounded-md px-4 py-2"
-                                  onClick={() =>
-                                    navigate(
-                                      `/payment-by-student/${item.studentId}`
-                                    )
-                                  }
-                                >
-                                  View Payments
-                                </button>
-                              </div>
-                              <div className="sm:col-span-3 md:col-span-4 ml-4">
-                                <button
-                                  className="border-2 rounded-md px-4 py-2"
-                                  onClick={() =>
-                                    navigate(
-                                      `/add-discount-by-student/${item.studentId}`
-                                    )
-                                  }
-                                >
-                                  Add Discount
-                                </button>
-                              </div>
-                            </div>
-                            <div className=" mt-2 grid md:grid-cols-12 gap-x-2 gap-y-6 sm:grid-cols-6">
-                              <div className="sm:col-span-3 md:col-span-4">
-                                <button
-                                  className="border-2 rounded-md px-4 py-2"
-                                  onClick={() =>
-                                    navigate(`/add-library/${item.studentId}`)
-                                  }
-                                >
-                                  Add Library
-                                </button>
-                              </div>
-                              <div className="sm:col-span-3 md:col-span-4 ml-3">
-                                <button
-                                  className="border-2 rounded-md px-4 py-2"
-                                  onClick={() =>
-                                    navigate(
-                                      `/library-by-student/${item.studentId}`
-                                    )
-                                  }
-                                >
-                                  View Library
-                                </button>
-                              </div>
-                            </div>
-                          </>
-                        </td>
                       </tr>
                     ))
                   )}
@@ -430,4 +309,4 @@ const Students = () => {
   );
 };
 
-export default Students;
+export default StudentsByDiscount;

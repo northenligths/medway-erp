@@ -3,36 +3,50 @@ import Layout from "../../components/layout";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { axiosClient } from "../../apiClient";
+import { FaEye } from "react-icons/fa6";
 import { ImBin } from "react-icons/im";
-import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
-import { Oval } from "react-loader-spinner";
 import { FaRegEdit } from "react-icons/fa";
-const PaymentByStudent = () => {
+import { toast } from "react-toastify";
+import { Oval } from "react-loader-spinner";
+
+const Discounts = () => {
   const navigate = useNavigate();
-  const [payments, setPayments] = useState([]);
+  const [discounts, setDiscounts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const params = useParams();
-  const token = localStorage.getItem("token");
 
-  const getPayments = async () => {
+  const getDiscounts = async () => {
     setLoading(true);
     try {
-      const res = await axiosClient.get(`fee/student/${params.id}`, {
+      const res = await axiosClient.get("/discount ", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setPayments(res.data.data);
+      setDiscounts(res.data.data);
     } catch (err) {
       console.log("err", err);
     }
     setLoading(false);
   };
 
-  const sortByPayment = async (e) => {
+  const deleteDiscount = async (id) => {
+    try {
+      await axiosClient.delete(`discount/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Deleted Successfully");
+      getDiscounts();
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+  const sortDiscountByDate = async (e) => {
     setLoading(true);
     try {
       const res = await axiosClient.get(
@@ -43,29 +57,15 @@ const PaymentByStudent = () => {
           },
         }
       );
-      setPayments(res.data.data);
+      setDiscounts(res.data.data);
     } catch (err) {
       console.log("err", err);
     }
     setLoading(false);
   };
 
-  const deletePayment = async (id) => {
-    try {
-      await axiosClient.delete(`fee/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      toast.success("Deleted Successfully");
-      getPayments();
-    } catch (err) {
-      console.log("err", err);
-    }
-  };
-
   useEffect(() => {
-    getPayments();
+    getDiscounts();
   }, []);
 
   return (
@@ -74,9 +74,8 @@ const PaymentByStudent = () => {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto flex items-center justify-between">
             <h1 className="text-base font-semibold leading-6 text-gray-900">
-              Fees
+              Discounts
             </h1>
-
             <div className="flex gap-4 items-center">
               <div className="flex flex-col items-center gap-4">
                 <h1 className="text-xl font-semibold">Sort By Date</h1>
@@ -103,7 +102,7 @@ const PaymentByStudent = () => {
                 <div>
                   <button
                     className="border-2 px-4 rounded-lg py-2"
-                    onClick={sortByPayment}
+                    onClick={sortDiscountByDate}
                   >
                     Apply Filter
                   </button>
@@ -122,37 +121,19 @@ const PaymentByStudent = () => {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                     >
-                      Amount
-                    </th>
-                    <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                    >
-                      Tution Fee
+                      Discount Amount
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Transaction Id
+                      Discount Remark
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Mode of Payment
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Number of Installment
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Payment Date
+                      Discount Date
                     </th>
                     <th
                       scope="col"
@@ -174,43 +155,56 @@ const PaymentByStudent = () => {
                       />{" "}
                     </div>
                   ) : (
-                    payments?.map((item) => (
+                    discounts.map((item) => (
                       <tr key={item.batchId}>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          <div className="text-gray-900">{item.amount}</div>
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.tutionFees}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.transactionId}
-                        </td>
-
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="text-gray-900">
-                            {item.modeOfPayment}
+                            {item.discountAmount}
                           </div>
                         </td>
 
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.numberOfInstallment}
+                          {item.discountRemark}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.paymentDate}
+                          {item.discountDate}
                         </td>
+
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="flex items-center gap-8">
+                            <FaEye
+                              className="cursor-pointer"
+                              color="black"
+                              fontSize={"20px"}
+                              onClick={() =>
+                                navigate(`/discount/${item.discountId}`)
+                              }
+                            />
                             <ImBin
                               className="cursor-pointer"
                               color="red"
                               fontSize={"20px"}
-                              onClick={() => deletePayment(item.paymentId)}
+                              onClick={() => deleteDiscount(item.discountId)}
                             />
+                            <FaRegEdit
+                              className="cursor-pointer"
+                              color="black"
+                              fontSize={"20px"}
+                              onClick={() =>
+                                navigate(
+                                  `/update-discount/${item.discountId}`,
+                                  {
+                                    state: item,
+                                  }
+                                )
+                              }
+                            />
+
                             <button
                               className="border-2 rounded-md px-4 py-2"
                               onClick={() =>
                                 navigate(
-                                  `/student-by-payment/${item.paymentId}`
+                                  `/students-by-discount/${item.discountId}`
                                 )
                               }
                             >
@@ -231,4 +225,4 @@ const PaymentByStudent = () => {
   );
 };
 
-export default PaymentByStudent;
+export default Discounts;
