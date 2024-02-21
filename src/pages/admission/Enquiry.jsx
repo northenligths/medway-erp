@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import Layout from "../../components/layout";
 import { useNavigate } from "react-router";
 import { axiosClient } from "../../apiClient";
+import { useParams } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
 
 const Enquiry = () => {
   const navigate = useNavigate();
+  const params = useParams();
   const [enquiries, setEnquiries] = useState([]);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
@@ -12,12 +15,12 @@ const Enquiry = () => {
   const getEnquiries = async () => {
     setLoading(true);
     try {
-      const res = await axiosClient.get(`/enquiry/1`, {
+      const res = await axiosClient.get(`/enquiry/${params.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setEnquiries(res);
+      setEnquiries([res.data.data]);
     } catch (err) {
       console.log("err", err);
     }
@@ -27,29 +30,15 @@ const Enquiry = () => {
   useEffect(() => {
     getEnquiries();
   }, []);
-  const people = [
-    {
-      name: "Lindsay Walton",
-      title: "Front-end Developer",
-      department: "Optimization",
-      email: "lindsay.walton@example.com",
-      role: "Member",
-      image:
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-  ];
+
   return (
     <Layout>
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-base font-semibold leading-6 text-gray-900">
-              Students
+              Enquiry
             </h1>
-            <p className="mt-2 text-sm text-gray-700">
-              A list of all the users in your account including their name,
-              title, email and role.
-            </p>
           </div>
           <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
             <button
@@ -131,62 +120,89 @@ const Enquiry = () => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Batch Details
+                      Batch Name
+                    </th>
+
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Batch Start Date
                     </th>
                     <th
                       scope="col"
-                      className="relative py-3.5 pl-3 pr-4 sm:pr-0"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      <span className="sr-only">Edit</span>
+                      Batch End Date
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Batch Fees
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {people.map((person) => (
-                    <tr key={person.email}>
-                      <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
-                        <div className="flex items-center">
-                          <div className="h-11 w-11 flex-shrink-0">
-                            <img
-                              className="h-11 w-11 rounded-full"
-                              src={person.image}
-                              alt=""
-                            />
-                          </div>
-                          <div className="ml-4">
-                            <div className="font-medium text-gray-900">
-                              {person.name}
-                            </div>
-                            <div className="mt-1 text-gray-500">
-                              {person.email}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                        <div className="text-gray-900">{person.title}</div>
-                        <div className="mt-1 text-gray-500">
-                          {person.department}
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                          Active
-                        </span>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                        {person.role}
-                      </td>
-                      <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                        <a
-                          href="#"
-                          className="text-indigo-600 hover:text-indigo-900"
-                        >
-                          Edit<span className="sr-only">, {person.name}</span>
-                        </a>
-                      </td>
-                    </tr>
-                  ))}
+                  {loading ? (
+                    <div className="items-center flex justify-center py-4">
+                      {" "}
+                      <Oval
+                        color="white"
+                        secondaryColor="black"
+                        width={70}
+                        height={70}
+                      />{" "}
+                    </div>
+                  ) : (
+                    enquiries.map((item) => (
+                      <tr key={item.enquiryId}>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          <div className="text-gray-900">{item.enquiryId}</div>
+                        </td>
+
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.studentName}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.fatherName}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.motherName}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.contactNo}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.emailId}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.dateOfBirth}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.category}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.gender}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.leadSource}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.batchName.batchName}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.batchName.startDate}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.batchName.batchEndDate}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.batchName.batchFees}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>

@@ -3,69 +3,85 @@ import Layout from "../../components/layout";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { axiosClient } from "../../apiClient";
+import { FaEye } from "react-icons/fa6";
 import { ImBin } from "react-icons/im";
-import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
-import { Oval } from "react-loader-spinner";
 import { FaRegEdit } from "react-icons/fa";
-const PaymentByStudent = () => {
+import { toast } from "react-toastify";
+import { Oval } from "react-loader-spinner";
+
+const Staffs = () => {
   const navigate = useNavigate();
-  const [payments, setPayments] = useState([]);
+  const [staffs, setStaffs] = useState([]);
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const params = useParams();
-  const token = localStorage.getItem("token");
 
-  const getPayments = async () => {
+  const getStaffs = async () => {
     setLoading(true);
     try {
-      const res = await axiosClient.get(`fee/student/${params.id}`, {
+      const res = await axiosClient.get("/staff", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setPayments(res.data.data);
+      setStaffs(res.data.data);
     } catch (err) {
       console.log("err", err);
     }
     setLoading(false);
   };
 
-  const sortByPayment = async (e) => {
-    setLoading(true);
-    try {
-      const res = await axiosClient.get(
-        `/fee?fromDate=${startDate}&toDate=${endDate}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setPayments(res.data.data);
-    } catch (err) {
-      console.log("err", err);
-    }
-    setLoading(false);
-  };
+  console.log(staffs);
 
-  const deletePayment = async (id) => {
+  const deleteStaff = async (id) => {
     try {
-      await axiosClient.delete(`fee/${id}`, {
+      await axiosClient.delete(`/staff/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       toast.success("Deleted Successfully");
-      getPayments();
+      getStaffs();
     } catch (err) {
       console.log("err", err);
     }
   };
 
+  const inactiveStaff = async (id) => {
+    try {
+      await axiosClient.put(`/staff/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Staff status inactive");
+      getStaffs();
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+  //   const sortAccountsByDate = async (e) => {
+  //     setLoading(true);
+  //     try {
+  //       const res = await axiosClient.get(
+  //         `/account/dates?fromDate=${startDate}&toDate=${endDate}`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+  //       setAccounts(res.data.data.content);
+  //     } catch (err) {
+  //       console.log("err", err);
+  //     }
+  //     setLoading(false);
+  //   };
+
   useEffect(() => {
-    getPayments();
+    getStaffs();
   }, []);
 
   return (
@@ -74,10 +90,9 @@ const PaymentByStudent = () => {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto flex items-center justify-between">
             <h1 className="text-base font-semibold leading-6 text-gray-900">
-              Fees
+              Staffs
             </h1>
-
-            <div className="flex gap-4 items-center">
+            {/* <div className="flex gap-4 items-center">
               <div className="flex flex-col items-center gap-4">
                 <h1 className="text-xl font-semibold">Sort By Date</h1>
                 <div className="flex items-center gap-4">
@@ -103,13 +118,13 @@ const PaymentByStudent = () => {
                 <div>
                   <button
                     className="border-2 px-4 rounded-lg py-2"
-                    onClick={sortByPayment}
+                    onClick={sortAccountsByDate}
                   >
                     Apply Filter
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="mt-8 flow-root">
@@ -122,37 +137,68 @@ const PaymentByStudent = () => {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                     >
-                      Amount
-                    </th>
-                    <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                    >
-                      Tution Fee
+                      Name
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Transaction Id
+                      Father or Husband
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Mode of Payment
+                      Mobile Number
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Number of Installment
+                      Designation
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Payment Date
+                      Date of Birth
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Aadhar No.
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Subject
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Address
+                    </th>
+
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Email
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Date of Joining
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Salary
                     </th>
                     <th
                       scope="col"
@@ -174,29 +220,44 @@ const PaymentByStudent = () => {
                       />{" "}
                     </div>
                   ) : (
-                    payments?.map((item) => (
+                    staffs.map((item) => (
                       <tr key={item.batchId}>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          <div className="text-gray-900">{item.amount}</div>
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.tutionFees}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.transactionId}
+                          <div className="text-gray-900">{item.name}</div>
                         </td>
 
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          <div className="text-gray-900">
-                            {item.modeOfPayment}
-                          </div>
-                        </td>
-
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.numberOfInstallment}
+                          {item.fatherOrHusband}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.paymentDate}
+                          {item.mobileNumber}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.designation}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.dateOfBirth}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.aadharNo}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.subject}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.address}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.email}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.dateOfJoining}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.salary}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.staffStatus}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="flex items-center gap-8">
@@ -204,17 +265,21 @@ const PaymentByStudent = () => {
                               className="cursor-pointer"
                               color="red"
                               fontSize={"20px"}
-                              onClick={() => deletePayment(item.paymentId)}
+                              onClick={() => deleteStaff(item.staffId)}
+                            />
+                            <FaEye
+                              className="cursor-pointer"
+                              color="black"
+                              fontSize={"20px"}
+                              onClick={() =>
+                                navigate(`/voucher/${item.voucherId}`)
+                              }
                             />
                             <button
                               className="border-2 rounded-md px-4 py-2"
-                              onClick={() =>
-                                navigate(
-                                  `/student-by-payment/${item.paymentId}`
-                                )
-                              }
+                              onClick={() => inactiveStaff(item.staffId)}
                             >
-                              View Students
+                              Inactive Staff
                             </button>
                           </div>
                         </td>
@@ -231,4 +296,4 @@ const PaymentByStudent = () => {
   );
 };
 
-export default PaymentByStudent;
+export default Staffs;

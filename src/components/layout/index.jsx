@@ -12,12 +12,16 @@ import {
   UsersIcon,
   XMarkIcon,
   PencilSquareIcon,
+  ChatBubbleBottomCenterIcon,
+  ClipboardDocumentIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
   ClipboardDocumentCheckIcon,
   ComputerDesktopIcon,
+  EnvelopeIcon,
 } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
 import { Disclosure } from "@headlessui/react";
@@ -62,6 +66,38 @@ const navigation = [
     renderDropdown: true,
     dropdownName: "Students",
   },
+  {
+    name: "Discounts",
+    href: "#",
+    icon: ChatBubbleBottomCenterIcon,
+    current: false,
+    renderDropdown: true,
+    dropdownName: "Discounts",
+  },
+  {
+    name: "Vouchers",
+    href: "#",
+    icon: EnvelopeIcon,
+    current: false,
+    renderDropdown: true,
+    dropdownName: "Vouchers",
+  },
+  {
+    name: "Accounts",
+    href: "#",
+    icon: ClipboardDocumentIcon,
+    current: false,
+    renderDropdown: true,
+    dropdownName: "Accounts",
+  },
+  {
+    name: "Staffs",
+    href: "#",
+    icon: UserCircleIcon,
+    current: false,
+    renderDropdown: true,
+    dropdownName: "Staffs",
+  },
 ];
 
 const admissionManagementData = [
@@ -101,6 +137,48 @@ const students = [
   {
     name: "Add Student",
     href: "/add-student",
+  },
+];
+
+const discounts = [
+  {
+    name: "All Discounts",
+    href: "/discounts",
+  },
+  // {
+  //   name: "Add Student",
+  //   href: "/add-student",
+  // },
+];
+
+const vouchers = [
+  {
+    name: "All Vouchers",
+    href: "/vouchers",
+  },
+  {
+    name: "Add Vouchers",
+    href: "/add-vouchers",
+  },
+];
+const accounts = [
+  {
+    name: "All Accounts",
+    href: "/accounts",
+  },
+  // {
+  //   name: "Add Account",
+  //   href: "/add-account",
+  // },
+];
+const staffs = [
+  {
+    name: "All Staffs",
+    href: "/staffs",
+  },
+  {
+    name: "Add Staff",
+    href: "/add-staff",
   },
 ];
 
@@ -402,6 +480,218 @@ export default function Layout({ children }) {
                                       </Disclosure>
                                     </>
                                   )}
+                                {item.renderDropdown &&
+                                  item.dropdownName === "Discounts" && (
+                                    <>
+                                      <Disclosure
+                                        as="div"
+                                        className={classNames(
+                                          item.current
+                                            ? "bg-indigo-700 text-white"
+                                            : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                          "group rounded-md p-2 text-sm  font-semibold"
+                                        )}
+                                      >
+                                        <Disclosure.Button
+                                          className={classNames(
+                                            item.current
+                                              ? "bg-indigo-700 text-white"
+                                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                            "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                          )}
+                                        >
+                                          <item.icon
+                                            className={classNames(
+                                              item.current
+                                                ? "text-white"
+                                                : "text-indigo-200 group-hover:text-white",
+                                              "h-6 w-6 shrink-0"
+                                            )}
+                                            aria-hidden="true"
+                                          />
+                                          {item.name}
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="">
+                                          {discounts.map((item) => {
+                                            return (
+                                              <>
+                                                <div
+                                                  className="px-4 py-2 flex items-center cursor-pointer"
+                                                  onClick={() =>
+                                                    navigate(item.href)
+                                                  }
+                                                >
+                                                  <FaArrowRight className="text-lg" />
+                                                  <p className="px-2">
+                                                    {item.name}
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          })}
+                                        </Disclosure.Panel>
+                                      </Disclosure>
+                                    </>
+                                  )}
+                                {item.renderDropdown &&
+                                  item.dropdownName === "Vouchers" && (
+                                    <>
+                                      <Disclosure
+                                        as="div"
+                                        className={classNames(
+                                          item.current
+                                            ? "bg-indigo-700 text-white"
+                                            : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                          "group rounded-md p-2 text-sm  font-semibold"
+                                        )}
+                                      >
+                                        <Disclosure.Button
+                                          className={classNames(
+                                            item.current
+                                              ? "bg-indigo-700 text-white"
+                                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                            "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                          )}
+                                        >
+                                          <item.icon
+                                            className={classNames(
+                                              item.current
+                                                ? "text-white"
+                                                : "text-indigo-200 group-hover:text-white",
+                                              "h-6 w-6 shrink-0"
+                                            )}
+                                            aria-hidden="true"
+                                          />
+                                          {item.name}
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="">
+                                          {vouchers.map((item) => {
+                                            return (
+                                              <>
+                                                <div
+                                                  className="px-4 py-2 flex items-center cursor-pointer"
+                                                  onClick={() =>
+                                                    navigate(item.href)
+                                                  }
+                                                >
+                                                  <FaArrowRight className="text-lg" />
+                                                  <p className="px-2">
+                                                    {item.name}
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          })}
+                                        </Disclosure.Panel>
+                                      </Disclosure>
+                                    </>
+                                  )}
+                                {item.renderDropdown &&
+                                  item.dropdownName === "Accounts" && (
+                                    <>
+                                      <Disclosure
+                                        as="div"
+                                        className={classNames(
+                                          item.current
+                                            ? "bg-indigo-700 text-white"
+                                            : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                          "group rounded-md p-2 text-sm  font-semibold"
+                                        )}
+                                      >
+                                        <Disclosure.Button
+                                          className={classNames(
+                                            item.current
+                                              ? "bg-indigo-700 text-white"
+                                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                            "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                          )}
+                                        >
+                                          <item.icon
+                                            className={classNames(
+                                              item.current
+                                                ? "text-white"
+                                                : "text-indigo-200 group-hover:text-white",
+                                              "h-6 w-6 shrink-0"
+                                            )}
+                                            aria-hidden="true"
+                                          />
+                                          {item.name}
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="">
+                                          {accounts.map((item) => {
+                                            return (
+                                              <>
+                                                <div
+                                                  className="px-4 py-2 flex items-center cursor-pointer"
+                                                  onClick={() =>
+                                                    navigate(item.href)
+                                                  }
+                                                >
+                                                  <FaArrowRight className="text-lg" />
+                                                  <p className="px-2">
+                                                    {item.name}
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          })}
+                                        </Disclosure.Panel>
+                                      </Disclosure>
+                                    </>
+                                  )}
+                                {item.renderDropdown &&
+                                  item.dropdownName === "Staffs" && (
+                                    <>
+                                      <Disclosure
+                                        as="div"
+                                        className={classNames(
+                                          item.current
+                                            ? "bg-indigo-700 text-white"
+                                            : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                          "group rounded-md p-2 text-sm  font-semibold"
+                                        )}
+                                      >
+                                        <Disclosure.Button
+                                          className={classNames(
+                                            item.current
+                                              ? "bg-indigo-700 text-white"
+                                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                            "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                          )}
+                                        >
+                                          <item.icon
+                                            className={classNames(
+                                              item.current
+                                                ? "text-white"
+                                                : "text-indigo-200 group-hover:text-white",
+                                              "h-6 w-6 shrink-0"
+                                            )}
+                                            aria-hidden="true"
+                                          />
+                                          {item.name}
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="">
+                                          {staffs.map((item) => {
+                                            return (
+                                              <>
+                                                <div
+                                                  className="px-4 py-2 flex items-center cursor-pointer"
+                                                  onClick={() =>
+                                                    navigate(item.href)
+                                                  }
+                                                >
+                                                  <FaArrowRight className="text-lg" />
+                                                  <p className="px-2">
+                                                    {item.name}
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          })}
+                                        </Disclosure.Panel>
+                                      </Disclosure>
+                                    </>
+                                  )}
                               </li>
                             ))}
                           </ul>
@@ -641,6 +931,218 @@ export default function Layout({ children }) {
                                     </Disclosure.Button>
                                     <Disclosure.Panel className="">
                                       {students.map((item) => {
+                                        return (
+                                          <>
+                                            <div
+                                              className="px-4 py-2 flex items-center cursor-pointer"
+                                              onClick={() =>
+                                                navigate(item.href)
+                                              }
+                                            >
+                                              <FaArrowRight className="text-lg" />
+                                              <p className="px-2">
+                                                {item.name}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                      })}
+                                    </Disclosure.Panel>
+                                  </Disclosure>
+                                </>
+                              )}
+                            {item.renderDropdown &&
+                              item.dropdownName === "Discounts" && (
+                                <>
+                                  <Disclosure
+                                    as="div"
+                                    className={classNames(
+                                      item.current
+                                        ? "bg-indigo-700 text-white"
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      "group rounded-md p-2 text-sm  font-semibold"
+                                    )}
+                                  >
+                                    <Disclosure.Button
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                      )}
+                                    >
+                                      <item.icon
+                                        className={classNames(
+                                          item.current
+                                            ? "text-white"
+                                            : "text-indigo-200 group-hover:text-white",
+                                          "h-6 w-6 shrink-0"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      {item.name}
+                                    </Disclosure.Button>
+                                    <Disclosure.Panel className="">
+                                      {discounts.map((item) => {
+                                        return (
+                                          <>
+                                            <div
+                                              className="px-4 py-2 flex items-center cursor-pointer"
+                                              onClick={() =>
+                                                navigate(item.href)
+                                              }
+                                            >
+                                              <FaArrowRight className="text-lg" />
+                                              <p className="px-2">
+                                                {item.name}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                      })}
+                                    </Disclosure.Panel>
+                                  </Disclosure>
+                                </>
+                              )}
+                            {item.renderDropdown &&
+                              item.dropdownName === "Vouchers" && (
+                                <>
+                                  <Disclosure
+                                    as="div"
+                                    className={classNames(
+                                      item.current
+                                        ? "bg-indigo-700 text-white"
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      "group rounded-md p-2 text-sm  font-semibold"
+                                    )}
+                                  >
+                                    <Disclosure.Button
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                      )}
+                                    >
+                                      <item.icon
+                                        className={classNames(
+                                          item.current
+                                            ? "text-white"
+                                            : "text-indigo-200 group-hover:text-white",
+                                          "h-6 w-6 shrink-0"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      {item.name}
+                                    </Disclosure.Button>
+                                    <Disclosure.Panel className="">
+                                      {vouchers.map((item) => {
+                                        return (
+                                          <>
+                                            <div
+                                              className="px-4 py-2 flex items-center cursor-pointer"
+                                              onClick={() =>
+                                                navigate(item.href)
+                                              }
+                                            >
+                                              <FaArrowRight className="text-lg" />
+                                              <p className="px-2">
+                                                {item.name}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                      })}
+                                    </Disclosure.Panel>
+                                  </Disclosure>
+                                </>
+                              )}
+                            {item.renderDropdown &&
+                              item.dropdownName === "Accounts" && (
+                                <>
+                                  <Disclosure
+                                    as="div"
+                                    className={classNames(
+                                      item.current
+                                        ? "bg-indigo-700 text-white"
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      "group rounded-md p-2 text-sm  font-semibold"
+                                    )}
+                                  >
+                                    <Disclosure.Button
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                      )}
+                                    >
+                                      <item.icon
+                                        className={classNames(
+                                          item.current
+                                            ? "text-white"
+                                            : "text-indigo-200 group-hover:text-white",
+                                          "h-6 w-6 shrink-0"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      {item.name}
+                                    </Disclosure.Button>
+                                    <Disclosure.Panel className="">
+                                      {accounts.map((item) => {
+                                        return (
+                                          <>
+                                            <div
+                                              className="px-4 py-2 flex items-center cursor-pointer"
+                                              onClick={() =>
+                                                navigate(item.href)
+                                              }
+                                            >
+                                              <FaArrowRight className="text-lg" />
+                                              <p className="px-2">
+                                                {item.name}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                      })}
+                                    </Disclosure.Panel>
+                                  </Disclosure>
+                                </>
+                              )}
+                            {item.renderDropdown &&
+                              item.dropdownName === "Staffs" && (
+                                <>
+                                  <Disclosure
+                                    as="div"
+                                    className={classNames(
+                                      item.current
+                                        ? "bg-indigo-700 text-white"
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      "group rounded-md p-2 text-sm  font-semibold"
+                                    )}
+                                  >
+                                    <Disclosure.Button
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                      )}
+                                    >
+                                      <item.icon
+                                        className={classNames(
+                                          item.current
+                                            ? "text-white"
+                                            : "text-indigo-200 group-hover:text-white",
+                                          "h-6 w-6 shrink-0"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      {item.name}
+                                    </Disclosure.Button>
+                                    <Disclosure.Panel className="">
+                                      {staffs.map((item) => {
                                         return (
                                           <>
                                             <div

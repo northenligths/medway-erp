@@ -19,6 +19,24 @@ import EnquiryByBatch from "./pages/batches/EnquiryByBatch";
 import UpdateStudent from "./pages/students/UpdateStudent";
 import DepositFeeStudent from "./pages/students/DepositFeeStudent";
 import PaymentByStudent from "./pages/students/PaymentByStudent";
+import AddDiscountByStudent from "./pages/students/AddDiscountByStudent";
+import Discounts from "./pages/discounts/Discounts";
+import StudentsByDiscount from "./pages/discounts/StudentsByDiscount";
+import UpdateDiscount from "./pages/discounts/UpdateDiscount";
+import Library from "./pages/library/Library";
+import AddLibrary from "./pages/students/AddLibrary";
+import LibraryByStudent from "./pages/students/LibraryBYStuduent";
+import AddVoucher from "./pages/vouchers/AddVoucher";
+import Vouchers from "./pages/vouchers/Vouchers";
+import UpdateVoucher from "./pages/vouchers/UpdateVoucher";
+import StudentByPayment from "./pages/students/StudentByPayment";
+import Student from "./pages/students/Studuent";
+import Discount from "./pages/discounts/Discount";
+import Voucher from "./pages/vouchers/Voucher";
+import Accounts from "./pages/account/Accounts";
+import Account from "./pages/account/Account";
+import Staffs from "./pages/staff/Staffs";
+import AddStaff from "./pages/staff/AddStaff";
 
 function App() {
   return (
@@ -43,6 +61,31 @@ function App() {
       <Route path="/update-student/:id" element={<UpdateStudent />} />
       <Route path="/deposit-fee/:id" element={<DepositFeeStudent />} />
       <Route path="/payment-by-student/:id" element={<PaymentByStudent />} />
+      <Route
+        path="/add-discount-by-student/:id"
+        element={<AddDiscountByStudent />}
+      />
+      <Route
+        path="/students-by-discount/:id"
+        element={<StudentsByDiscount />}
+      />
+      <Route path="/discounts" element={<Discounts />} />
+      <Route path="/update-discount/:id" element={<UpdateDiscount />} />
+      <Route path="/libraries" element={<Library />} />
+      <Route path="/add-library/:id" element={<AddLibrary />} />
+      <Route path="/library-by-student/:id" element={<LibraryByStudent />} />
+      <Route path="/add-vouchers" element={<AddVoucher />} />
+      <Route path="/vouchers" element={<Vouchers />} />
+      <Route path="/update-voucher" element={<UpdateVoucher />} />
+      <Route path="/student-by-payment/:id" element={<StudentByPayment />} />
+      <Route path="/student/:id" element={<Student />} />
+      <Route path="/discount/:id" element={<Discount />} />
+      <Route path="/library/:id" element={<Library />} />
+      <Route path="/voucher/:id" element={<Voucher />} />
+      <Route path="/accounts" element={<Accounts />} />
+      <Route path="/account-by-date/:date" element={<Account />} />
+      <Route path="/staffs" element={<Staffs />} />
+      <Route path="/add-staff" element={<AddStaff />} />
     </Routes>
   );
 }

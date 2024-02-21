@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { axiosClient } from "../../apiClient";
 import { Oval } from "react-loader-spinner";
 import { ImBin } from "react-icons/im";
-import { FaRegEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { FaEye } from "react-icons/fa";
 
 const ViewAdmission = () => {
   const navigate = useNavigate();
@@ -222,28 +222,20 @@ const ViewAdmission = () => {
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="flex items-center gap-8">
-                            {/* <FaEye
-                            className="cursor-pointer"
-                            color="black"
-                            fontSize={"20px"}
-                            onClick={() => navigate(`/course/${item.courseId}`)}
-                          /> */}
+                            <FaEye
+                              className="cursor-pointer"
+                              color="black"
+                              fontSize={"20px"}
+                              onClick={() =>
+                                navigate(`/view-enquiry/${item.enquiryId}`)
+                              }
+                            />
                             <ImBin
                               className="cursor-pointer"
                               color="red"
                               fontSize={"20px"}
                               onClick={() => deleteEnquiry(item.enquiryId)}
                             />
-                            {/* <FaRegEdit
-                              className="cursor-pointer"
-                              color="black"
-                              fontSize={"20px"}
-                              onClick={() =>
-                                navigate(`/edit-batch/${item.batchId}`, {
-                                  state: item,
-                                })
-                              }
-                            /> */}
                           </div>
                         </td>
                       </tr>
