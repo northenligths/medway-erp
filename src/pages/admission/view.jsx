@@ -41,6 +41,20 @@ const ViewAdmission = () => {
       console.log("err", err);
     }
   };
+  const enrollStudent = async (id) => {
+    try {
+      await axiosClient.post(`enquiry/enroll/${id}`, "", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Student Enrolled Successfully");
+      getEnquiries();
+    } catch (err) {
+      console.log("err", err);
+      toast.error("Unable to enroll student");
+    }
+  };
   useEffect(() => {
     getEnquiries();
   }, []);
@@ -112,12 +126,7 @@ const ViewAdmission = () => {
                     >
                       Date of birth
                     </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Category
-                    </th>
+
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -199,9 +208,7 @@ const ViewAdmission = () => {
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.dateOfBirth}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.category}
-                        </td>
+
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.gender}
                         </td>
@@ -222,14 +229,12 @@ const ViewAdmission = () => {
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="flex items-center gap-8">
-                            <FaEye
-                              className="cursor-pointer"
-                              color="black"
-                              fontSize={"20px"}
-                              onClick={() =>
-                                navigate(`/view-enquiry/${item.enquiryId}`)
-                              }
-                            />
+                            <button
+                              className="border-2 rounded-md px-4 py-2"
+                              onClick={() => enrollStudent(item.enquiryId)}
+                            >
+                              Enroll Student
+                            </button>
                             <ImBin
                               className="cursor-pointer"
                               color="red"

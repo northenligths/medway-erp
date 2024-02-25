@@ -134,10 +134,10 @@ const students = [
     name: "All Students",
     href: "/students",
   },
-  {
-    name: "Add Student",
-    href: "/add-student",
-  },
+  // {
+  //   name: "Add Student",
+  //   href: "/add-student",
+  // },
 ];
 
 const discounts = [

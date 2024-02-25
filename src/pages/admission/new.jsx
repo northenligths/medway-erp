@@ -11,6 +11,7 @@ const NewAdmission = () => {
 
   const [batchId, setBatchId] = useState();
   const [courses, setCourses] = useState([]);
+  const [courseId, setCourseId] = useState();
   const [batches, setBatches] = useState([]);
   const [enquiries, setEnquries] = useState({
     studentName: "",
@@ -32,7 +33,7 @@ const NewAdmission = () => {
     leadSource: "",
   });
 
-  const addStudent = async (e) => {
+  const addEnquiry = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
@@ -78,10 +79,10 @@ const NewAdmission = () => {
     setLoading(false);
   };
 
-  const getBatches = async () => {
+  const getBatches = async (courseId) => {
     setLoading(true);
     try {
-      const res = await axiosClient.get("/batch", {
+      const res = await axiosClient.get(`/batch/courseId/${courseId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -94,13 +95,18 @@ const NewAdmission = () => {
   };
 
   useEffect(() => {
-    getBatches();
     getCourses();
   }, []);
 
+  useEffect(() => {
+    if (courseId) {
+      getBatches(courseId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseId]);
   return (
     <Layout>
-      <form onSubmit={addStudent}>
+      <form onSubmit={addEnquiry}>
         <div className="space-y-12">
           <div className="">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -110,7 +116,7 @@ const NewAdmission = () => {
 
           <div className="border-b border-gray-900/10 pb-12">
             <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3 md:col-span-3">
+              <div className="sm:col-span-3 md:col-span-4">
                 <label
                   htmlFor="first-name"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -130,7 +136,7 @@ const NewAdmission = () => {
                 </div>
               </div>
 
-              <div className="sm:col-span-3 md:col-span-3">
+              <div className="sm:col-span-3 md:col-span-4">
                 <label
                   htmlFor="last-name"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -141,6 +147,7 @@ const NewAdmission = () => {
                   <input
                     type="text"
                     name="fatherName"
+                    required
                     value={enquiries.fatherName}
                     onChange={handleChange}
                     id="last-name"
@@ -149,7 +156,7 @@ const NewAdmission = () => {
                   />
                 </div>
               </div>
-              <div className="sm:col-span-3 md:col-span-3">
+              <div className="sm:col-span-3 md:col-span-4">
                 <label
                   htmlFor="last-name"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -168,80 +175,21 @@ const NewAdmission = () => {
                   />
                 </div>
               </div>
-              <div className="sm:col-span-3 md:col-span-3">
-                <label
-                  htmlFor="last-name"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Country
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="country"
-                    value={enquiries.country}
-                    onChange={handleChange}
-                    id="last-name"
-                    autoComplete="family-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
             </div>
             <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-2  lg:col-span-2 md:col-span-3">
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Lead Source
-                </label>
-                <div className="mt-2">
-                  <select
-                    id="country"
-                    name="leadSource"
-                    value={enquiries.leadSource}
-                    onChange={handleChange}
-                    autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                  >
-                    <option value={"facebook"}>Facebook</option>
-                  </select>
-                </div>
-              </div>
-              <div className="sm:col-span-2  lg:col-span-2 md:col-span-3">
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Category
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="country"
-                    name="category"
-                    value={enquiries.category}
-                    onChange={handleChange}
-                    autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                  />
-                  {/* <option value={}>Day Scholar</option> */}
-                  {/* <option>Google</option> */}
-                </div>
-              </div>
-
-              <div className="sm:col-span-2 sm:col-start-1  lg:col-span-2 md:col-span-3">
+              <div className="sm:col-span-2 sm:col-start-1 md:col-span-4">
                 <label
                   htmlFor="city"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Exam Date
+                  Contact No.
                 </label>
                 <div className="mt-2">
                   <input
-                    type="date"
-                    name="year"
-                    value={enquiries.year}
+                    type="text"
+                    name="contactNo"
+                    required
+                    value={enquiries.contactNo}
                     onChange={handleChange}
                     id="city"
                     autoComplete="address-level2"
@@ -249,7 +197,30 @@ const NewAdmission = () => {
                   />
                 </div>
               </div>
-              <div className="sm:col-span-2 sm:col-start-1  lg:col-span-2 md:col-span-3">
+
+              <div className="sm:col-span-2 sm:col-start-1  md:col-span-4">
+                <label
+                  htmlFor="city"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Email
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="email"
+                    name="emailId"
+                    value={enquiries.emailId}
+                    onChange={handleChange}
+                    id="city"
+                    autoComplete="address-level2"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                  <p className="text-red-400 font-bol">
+                    *Email should be unique
+                  </p>
+                </div>
+              </div>
+              <div className="sm:col-span-2 sm:col-start-1 md:col-span-4">
                 <label
                   htmlFor="city"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -268,8 +239,27 @@ const NewAdmission = () => {
                   />
                 </div>
               </div>
-
-              <div className="sm:col-span-3 lg:col-span-2 md:col-span-3">
+            </div>
+            <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="col-span-full md:col-span-6">
+                <label
+                  htmlFor="street-address"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Address
+                </label>
+                <div className="mt-2">
+                  <textarea
+                    name="Address"
+                    value={enquiries.Address}
+                    onChange={handleChange}
+                    id="street-address"
+                    autoComplete="street-address"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-3 md:col-span-6">
                 <label
                   htmlFor="country"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -283,28 +273,166 @@ const NewAdmission = () => {
                     value={enquiries.gender}
                     onChange={handleChange}
                     autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6"
                   >
+                    <option>Select</option>
                     <option value={"male"}>Male</option>
                     <option value={"female"}>Female</option>
                   </select>
                 </div>
               </div>
-              <div className="sm:col-span-2 sm:col-start-1  lg:col-span-2 md:col-span-3">
+            </div>
+            <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-2  md:col-span-4">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Courses
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="country"
+                    value={courseId}
+                    onChange={(e) => {
+                      setCourseId(e.target.value);
+                    }}
+                    autoComplete="country-name"
+                    className="block w-full py-2 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6"
+                  >
+                    <option>Select</option>
+                    {courses.map((item) => {
+                      return (
+                        <option key={item.courseId} value={item.courseId}>
+                          {item.courseName}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+              <div className="sm:col-span-2 md:col-span-4">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Batches
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="country"
+                    name="gender"
+                    value={batchId}
+                    onChange={(e) => setBatchId(e.target.value)}
+                    autoComplete="country-name"
+                    className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  >
+                    <option>Select</option>
+                    {batches.map((item) => {
+                      console.log(item.id);
+                      return (
+                        <option key={item.batchId} value={item.batchId}>
+                          {item.batchName}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+              <div className="sm:col-span-3 md:col-span-4">
+                <label
+                  htmlFor="last-name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Highest Qualification
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="professonalCourse"
+                    value={enquiries.professonalCourse}
+                    onChange={handleChange}
+                    id="last-name"
+                    autoComplete="family-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-3 md:col-span-3">
+                <label
+                  htmlFor="last-name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  School Name
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="schoolName"
+                    value={enquiries.schoolName}
+                    onChange={handleChange}
+                    id="last-name"
+                    autoComplete="family-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-4 md:col-span-3">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Board Name
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="email"
+                    name="boardName"
+                    value={enquiries.boardName}
+                    onChange={handleChange}
+                    type="text"
+                    autoComplete="email"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2 sm:col-start-1  md:col-span-3">
                 <label
                   htmlFor="city"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Email
+                  Year
                 </label>
                 <div className="mt-2">
                   <input
-                    type="email"
-                    name="emailId"
-                    value={enquiries.emailId}
+                    type="date"
+                    name="year"
+                    value={enquiries.year}
                     onChange={handleChange}
                     id="city"
                     autoComplete="address-level2"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-3 md:col-span-3">
+                <label
+                  htmlFor="last-name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Percentage
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="percentage"
+                    value={enquiries.percentage}
+                    onChange={handleChange}
+                    id="last-name"
+                    autoComplete="family-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -330,93 +458,36 @@ const NewAdmission = () => {
                   />
                 </div>
               </div>
-              <div className="col-span-full md:col-span-4">
+              <div className="sm:col-span-2  md:col-span-4">
                 <label
-                  htmlFor="street-address"
+                  htmlFor="country"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Address
+                  Lead Source
                 </label>
                 <div className="mt-2">
-                  <textarea
-                    name="Address"
-                    value={enquiries.Address}
+                  <input
+                    id="country"
+                    name="leadSource"
+                    value={enquiries.leadSource}
                     onChange={handleChange}
-                    id="street-address"
-                    autoComplete="street-address"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    autoComplete="country-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
-              <div className="sm:col-span-2 md:col-span-4">
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Batches
-                </label>
-                <div className="mt-2">
-                  <select
-                    id="country"
-                    name="gender"
-                    value={batchId}
-                    onChange={(e) => setBatchId(e.target.value)}
-                    autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                  >
-                    <option>Select</option>
-                    {batches.map((item) => {
-                      console.log(item.id);
-                      return (
-                        <option key={item.batchId} value={item.batchId}>
-                          {item.batchName}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-              </div>
-              <div className="sm:col-span-2 md:col-span-4">
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Courses
-                </label>
-                <div className="mt-2">
-                  <select
-                    id="country"
-                    name="professonalCourse"
-                    value={enquiries.professonalCourse}
-                    onChange={handleChange}
-                    autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                  >
-                    <option>Select</option>
-                    {courses.map((item) => {
-                      return (
-                        <option key={item.courseId} value={item.courseName}>
-                          {item.courseName}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3 md:col-span-3">
+              <div className="sm:col-span-3 md:col-span-4">
                 <label
                   htmlFor="last-name"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Percentage
+                  Country
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    name="percentage"
-                    value={enquiries.percentage}
+                    name="country"
+                    value={enquiries.country}
                     onChange={handleChange}
                     id="last-name"
                     autoComplete="family-name"
@@ -424,64 +495,25 @@ const NewAdmission = () => {
                   />
                 </div>
               </div>
-              <div className="sm:col-span-3 md:col-span-3">
-                <label
-                  htmlFor="last-name"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  School Name
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="schoolName"
-                    value={enquiries.schoolName}
-                    onChange={handleChange}
-                    id="last-name"
-                    autoComplete="family-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-              <div className="sm:col-span-2 sm:col-start-1 md:col-span-3">
-                <label
-                  htmlFor="city"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Contact No.
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="contactNo"
-                    value={enquiries.contactNo}
-                    onChange={handleChange}
-                    id="city"
-                    autoComplete="address-level2"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-              <div className="sm:col-span-4 md:col-span-3">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Board Name
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="email"
-                    name="boardName"
-                    value={enquiries.boardName}
-                    onChange={handleChange}
-                    type="text"
-                    autoComplete="email"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
             </div>
+            {/* <div className="sm:col-span-2  lg:col-span-2 md:col-span-4">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Category
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="country"
+                    name="category"
+                    value={enquiries.category}
+                    onChange={handleChange}
+                    autoComplete="country-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div> */}
           </div>
         </div>
 
