@@ -48,10 +48,14 @@ const NewAdmission = () => {
         }
       );
       toast.success("Enquiry Added Successfully");
-      //   navigate("/all-batches");
     } catch (err) {
       console.log("err", err);
-      toast.error("Unable to add enquiry");
+      if (err.response.data.error.contactNo) {
+        toast.error(err.response.data.error.contactNo);
+      }
+      if (err.response.data.error) {
+        toast.error(err.response.data.error);
+      }
     }
     setLoading(false);
   };
@@ -108,9 +112,9 @@ const NewAdmission = () => {
     <Layout>
       <form onSubmit={addEnquiry}>
         <div className="space-y-12">
-          <div className="">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">
-              New Enquiry
+          <div className="flex items-center justify-center">
+            <h2 className="pb-4 font-semibold leading-7 text-gray-900 text-[50px]">
+              New Enquiry/Admission Form
             </h2>
           </div>
 
@@ -131,6 +135,7 @@ const NewAdmission = () => {
                     onChange={handleChange}
                     id="first-name"
                     autoComplete="given-name"
+                    required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -169,6 +174,7 @@ const NewAdmission = () => {
                     name="motherName"
                     value={enquiries.motherName}
                     onChange={handleChange}
+                    required
                     id="last-name"
                     autoComplete="family-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -209,15 +215,13 @@ const NewAdmission = () => {
                   <input
                     type="email"
                     name="emailId"
+                    required
                     value={enquiries.emailId}
                     onChange={handleChange}
                     id="city"
                     autoComplete="address-level2"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
-                  <p className="text-red-400 font-bol">
-                    *Email should be unique
-                  </p>
                 </div>
               </div>
               <div className="sm:col-span-2 sm:col-start-1 md:col-span-4">
@@ -233,6 +237,7 @@ const NewAdmission = () => {
                     name="dateOfBirth"
                     value={enquiries.dateOfBirth}
                     onChange={handleChange}
+                    required
                     id="city"
                     autoComplete="address-level2"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -241,7 +246,7 @@ const NewAdmission = () => {
               </div>
             </div>
             <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="col-span-full md:col-span-6">
+              <div className="col-span-full md:col-span-4">
                 <label
                   htmlFor="street-address"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -253,13 +258,14 @@ const NewAdmission = () => {
                     name="Address"
                     value={enquiries.Address}
                     onChange={handleChange}
+                    required
                     id="street-address"
                     autoComplete="street-address"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
-              <div className="sm:col-span-3 md:col-span-6">
+              <div className="sm:col-span-3 md:col-span-4">
                 <label
                   htmlFor="country"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -271,6 +277,7 @@ const NewAdmission = () => {
                     id="country"
                     name="gender"
                     value={enquiries.gender}
+                    required
                     onChange={handleChange}
                     autoComplete="country-name"
                     className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6"
@@ -279,6 +286,25 @@ const NewAdmission = () => {
                     <option value={"male"}>Male</option>
                     <option value={"female"}>Female</option>
                   </select>
+                </div>
+              </div>
+              <div className="sm:col-span-2  md:col-span-4">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Category
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="country"
+                    name="category"
+                    value={enquiries.category}
+                    onChange={handleChange}
+                    required
+                    autoComplete="country-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6"
+                  />
                 </div>
               </div>
             </div>
@@ -294,6 +320,7 @@ const NewAdmission = () => {
                   <select
                     id="country"
                     value={courseId}
+                    required
                     onChange={(e) => {
                       setCourseId(e.target.value);
                     }}
@@ -323,6 +350,7 @@ const NewAdmission = () => {
                     id="country"
                     name="gender"
                     value={batchId}
+                    required
                     onChange={(e) => setBatchId(e.target.value)}
                     autoComplete="country-name"
                     className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -352,6 +380,7 @@ const NewAdmission = () => {
                     name="professonalCourse"
                     value={enquiries.professonalCourse}
                     onChange={handleChange}
+                    required
                     id="last-name"
                     autoComplete="family-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -372,6 +401,7 @@ const NewAdmission = () => {
                     type="text"
                     name="schoolName"
                     value={enquiries.schoolName}
+                    required
                     onChange={handleChange}
                     id="last-name"
                     autoComplete="family-name"
@@ -411,6 +441,7 @@ const NewAdmission = () => {
                     type="date"
                     name="year"
                     value={enquiries.year}
+                    required
                     onChange={handleChange}
                     id="city"
                     autoComplete="address-level2"
@@ -431,6 +462,7 @@ const NewAdmission = () => {
                     name="percentage"
                     value={enquiries.percentage}
                     onChange={handleChange}
+                    required
                     id="last-name"
                     autoComplete="family-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -451,6 +483,7 @@ const NewAdmission = () => {
                     type="text"
                     name="universityName"
                     value={enquiries.universityName}
+                    required
                     onChange={handleChange}
                     id="region"
                     autoComplete="address-level1"
@@ -470,6 +503,7 @@ const NewAdmission = () => {
                     id="country"
                     name="leadSource"
                     value={enquiries.leadSource}
+                    required
                     onChange={handleChange}
                     autoComplete="country-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6"
@@ -488,6 +522,7 @@ const NewAdmission = () => {
                     type="text"
                     name="country"
                     value={enquiries.country}
+                    required
                     onChange={handleChange}
                     id="last-name"
                     autoComplete="family-name"
@@ -496,24 +531,6 @@ const NewAdmission = () => {
                 </div>
               </div>
             </div>
-            {/* <div className="sm:col-span-2  lg:col-span-2 md:col-span-4">
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Category
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="country"
-                    name="category"
-                    value={enquiries.category}
-                    onChange={handleChange}
-                    autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div> */}
           </div>
         </div>
 
