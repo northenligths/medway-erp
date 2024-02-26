@@ -52,7 +52,7 @@ const ViewAdmission = () => {
       getEnquiries();
     } catch (err) {
       console.log("err", err);
-      toast.error("Unable to enroll student");
+      toast.error(err.response.data.error);
     }
   };
   useEffect(() => {
@@ -137,6 +137,12 @@ const ViewAdmission = () => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
+                      Category
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
                       Lead Source
                     </th>
                     <th
@@ -211,6 +217,9 @@ const ViewAdmission = () => {
 
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.gender}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.category}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.leadSource}
