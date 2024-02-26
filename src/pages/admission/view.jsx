@@ -50,6 +50,7 @@ const ViewAdmission = () => {
       });
       toast.success("Student Enrolled Successfully");
       getEnquiries();
+      navigate("/students")
     } catch (err) {
       console.log("err", err);
       toast.error(err.response.data.error);
