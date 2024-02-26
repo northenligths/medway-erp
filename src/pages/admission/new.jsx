@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 const NewAdmission = () => {
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   const [batchId, setBatchId] = useState();
   const [courses, setCourses] = useState([]);
@@ -48,6 +49,7 @@ const NewAdmission = () => {
         }
       );
       toast.success("Enquiry Added Successfully");
+      navigate("/view-admission");
     } catch (err) {
       console.log("err", err);
       if (err.response.data.error.contactNo) {
@@ -113,7 +115,7 @@ const NewAdmission = () => {
       <form onSubmit={addEnquiry}>
         <div className="space-y-12">
           <div className="flex items-center justify-center">
-            <h2 className="pb-4 font-semibold leading-7 text-gray-900 text-[50px]">
+            <h2 className="pb-4 font-semibold leading-7 text-gray-900 md:text-[50px]">
               New Enquiry/Admission Form
             </h2>
           </div>
@@ -288,23 +290,86 @@ const NewAdmission = () => {
                   </select>
                 </div>
               </div>
-              <div className="sm:col-span-2  md:col-span-4">
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Category
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="country"
-                    name="category"
-                    value={enquiries.category}
-                    onChange={handleChange}
-                    required
-                    autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6"
-                  />
+              <div className="flex items-center justify-between md:gap-14">
+                <div className="py-2">
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium pl-2 text-gray-900"
+                  >
+                    General
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="country"
+                      type="radio"
+                      name="category"
+                      value="general"
+                      onChange={handleChange}
+                      required
+                      autoComplete="country-name"
+                      className="block w-full py-1.5 h-6 text-gray-900 shadow-sm  sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+                <div className="py-2">
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium pl-2 text-gray-900"
+                  >
+                    OBC
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="country"
+                      type="radio"
+                      name="category"
+                      value="obc"
+                      onChange={handleChange}
+                      required
+                      autoComplete="country-name"
+                      className="block w-full py-1.5 h-6 text-gray-900 shadow-sm  sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+                <div className="py-2">
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium pl-2 text-gray-900"
+                  >
+                    SC/ST
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="country"
+                      type="radio"
+                      name="category"
+                      value="SC/ST"
+                      onChange={handleChange}
+                      required
+                      autoComplete="country-name"
+                      className="block w-full py-1.5 h-6 text-gray-900 shadow-sm  sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+                <div className="py-2">
+                  <label
+                    htmlFor="country"
+                    className="block text-sm font-medium pl-2 text-gray-900"
+                  >
+                    Others
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="country"
+                      type="radio"
+                      name="category"
+                      value="others"
+                      onChange={handleChange}
+                      required
+                      autoComplete="country-name"
+                      className="block w-full py-1.5 h-6 text-gray-900 shadow-sm  sm:text-sm sm:leading-6"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
