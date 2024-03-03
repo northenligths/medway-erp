@@ -1,307 +1,431 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../../components/layout";
-import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 import { axiosClient } from "../../apiClient";
-import { ImBin } from "react-icons/im";
-import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
-import { FaRegEdit } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+
 const Student = () => {
-  const navigate = useNavigate();
-  const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const params = useParams();
   const token = localStorage.getItem("token");
-
-  const getStudents = async () => {
-    setLoading(true);
-    try {
-      const res = await axiosClient.get("student?pageNumber=0&pageSize=20 ", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setStudents(res.data.data.content);
-    } catch (err) {
-      console.log("err", err);
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    getStudents();
-  }, []);
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.state);
+  const [student, setStudent] = useState({
+    studentName: location.state.studentName,
+    fatherName: location.state.fatherName,
+    motherName: location.state.motherName,
+    contactNo: location.state.contactNo,
+    emailId: location.state.emailId,
+    category: location.state.category,
+    dateOfBirth: location.state.dateOfBirth,
+    gender: location.state.gender,
+    schoolName: location.state.schoolName,
+    boardName: location.state.boardName,
+    percentage: location.state.percentage,
+    year: location.state.year,
+    Address: location.state.Address,
+    country: location.state.country,
+    universityName: location.state.universityName,
+    professonalCourse: location.state.professonalCourse,
+    leadSource: location.state.leadSource,
+    batches: location.state.batchName.batchName,
+    courses: location.state?.batchName.courseName?.courseName,
+  });
 
   return (
     <Layout>
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-base font-semibold leading-6 text-gray-900">
-              Batches By Course
-            </h1>
-          </div>
-        </div>
-        <div className="mt-8 flow-root">
-          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                    >
-                      Student Status
-                    </th>
-                    <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                    >
-                      Student Id
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Student Name
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Father Name
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Mother Name
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Contact No.
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Email Id
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Date of Birth
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Category
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Gender
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Lead Source
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Batch Name
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Batch Id
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Start Date
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      End Date
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Batch Fees
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Batch Status
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Discount
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Due
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Percentage
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Given Installments
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Library Fees
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Payable Fees
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Tution Fees
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Total Installments
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {loading ? (
-                    <div className="items-center flex justify-center py-4">
-                      {" "}
-                      <Oval
-                        color="white"
-                        secondaryColor="black"
-                        width={70}
-                        height={70}
-                      />{" "}
-                    </div>
-                  ) : (
-                    students?.map((item) => (
-                      <tr key={item.batchId}>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          <div className="text-gray-900">
-                            {item.studentStatus}
-                          </div>
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          <div className="text-gray-900">{item.studentId}</div>
-                        </td>
+      <div className="">
+        <div className="grid md:grid-cols-12 gap-x-24 gap-y-8 sm:grid-cols-6">
+          <div className="sm:col-span-3 md:col-span-9">
+            <div className="grid md:grid-cols-6 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-3 md:col-span-3">
+                <label
+                  htmlFor="first-name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Student name
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    type="text"
+                    name="studentName"
+                    value={student.studentName}
+                    id="first-name"
+                    autoComplete="given-name"
+                    className=" cursor-not-allowed px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-3 md:col-span-3">
+                <label
+                  htmlFor="last-name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Father&apos;s name
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    type="text"
+                    name="fatherName"
+                    value={student.fatherName}
+                    id="last-name"
+                    autoComplete="family-name"
+                    className=" cursor-not-allowed px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-3 md:col-span-3">
+                <label
+                  htmlFor="last-name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Mother name
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    type="text"
+                    name="motherName"
+                    value={student.motherName}
+                    id="last-name"
+                    autoComplete="family-name"
+                    className="  cursor-not-allowed px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-3 md:col-span-3">
+                <label
+                  htmlFor="last-name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Country
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    type="text"
+                    name="country"
+                    value={student.country}
+                    id="last-name"
+                    autoComplete="family-name"
+                    className=" cursor-not-allowed px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2  md:col-span-3">
+                <label
+                  htmlFor="city"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Email
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    type="email"
+                    name="emailId"
+                    value={student.emailId}
+                    id="city"
+                    autoComplete="address-level2"
+                    className=" cursor-not-allowed px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
 
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.studentName}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.fatherName}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.motherName}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.contactNo}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.emailId}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.dateOfBirth}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.category}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.gender}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.leadSource}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.batchName.batchName}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.batchName.batchId}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.batchName.startDate}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.batchName.batchEndDate}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.batchName.batchFees}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.batchName.batchStatus}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item?.feesDetails.discountAmount}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item?.feesDetails.dueAmount === true
-                            ? "Pending"
-                            : "Clear"}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item?.percentage}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item?.feesDetails.givenInsallments}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item?.feesDetails.libraryFees}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item?.feesDetails.payableFees}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item?.feesDetails.remTutionFees}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item?.feesDetails.totalInstallments}
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+              <div className="sm:col-span-2    md:col-span-3">
+                <label
+                  htmlFor="city"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Date of Birth
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    type="date"
+                    name="dateOfBirth"
+                    value={student.dateOfBirth}
+                    id="city"
+                    autoComplete="address-level2"
+                    className="  cursor-not-allowed px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2 sm:col-start-1 md:col-span-3">
+                <label
+                  htmlFor="city"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Contact No.
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    type="text"
+                    name="contactNo"
+                    value={student.contactNo}
+                    id="city"
+                    autoComplete="address-level2"
+                    className="  cursor-not-allowed px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="col-span-full md:col-span-3">
+                <label
+                  htmlFor="street-address"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Address
+                </label>
+                <div className="mt-2">
+                  <textarea
+                    readOnly
+                    name="Address"
+                    value={student.Address}
+                    id="street-address"
+                    autoComplete="street-address"
+                    className="  cursor-not-allowed max-w-[450px] px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-3  md:col-span-3">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Gender
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    id="country"
+                    name="gender"
+                    value={student.gender}
+                    autoComplete="country-name"
+                    className=" cursor-not-allowed px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2  md:col-span-3">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Lead Source
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    id="country"
+                    name="leadSource"
+                    value={student.leadSource}
+                    autoComplete="country-name"
+                    className=" cursor-not-allowed px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2 md:col-span-3">
+                <label
+                  htmlFor="region"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  University Name
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    type="text"
+                    name="universityName"
+                    value={student.universityName}
+                    id="region"
+                    autoComplete="address-level1"
+                    className=" cursor-not-allowed  px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2  md:col-span-3">
+                <label
+                  htmlFor="city"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Exam Date
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    type="date"
+                    name="year"
+                    value={student.year}
+                    id="city"
+                    autoComplete="address-level2"
+                    className="  cursor-not-allowed  px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2 md:col-span-3">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Batch
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="country"
+                    name="gender"
+                    readOnly
+                    value={student.batches}
+                    autoComplete="country-name"
+                    className=" cursor-not-allowed px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2 md:col-span-3">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Course
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    id="country"
+                    name="professonalCourse"
+                    value={student.courses}
+                    autoComplete="country-name"
+                    className=" cursor-not-allowed px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-3 md:col-span-3">
+                <label
+                  htmlFor="last-name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Percentage
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    type="text"
+                    name="percentage"
+                    value={student.percentage}
+                    id="last-name"
+                    autoComplete="family-name"
+                    className="  cursor-not-allowed  px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-3 md:col-span-3">
+                <label
+                  htmlFor="last-name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  School Name
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    type="text"
+                    name="schoolName"
+                    value={student.schoolName}
+                    id="last-name"
+                    autoComplete="family-name"
+                    className="  cursor-not-allowed  px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-4 md:col-span-3">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Board Name
+                </label>
+                <div className="mt-2">
+                  <input
+                    readOnly
+                    id="email"
+                    name="boardName"
+                    value={student.boardName}
+                    type="text"
+                    autoComplete="email"
+                    className="  cursor-not-allowed  px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
             </div>
+          </div>
+          <div className="sm:col-span-3 md:col-span-3 mt-4">
+            <div className="cols-span-3 py-4">
+              <button
+                className="border-2 rounded-md  py-2  w-[200px] max-w-[200px] "
+                onClick={() =>
+                  navigate(`/deposit-fee/${location.state.studentId}`, {
+                    state: location.state,
+                  })
+                }
+              >
+                Deposit Fees
+              </button>
+            </div>
+            <div className="cols-span-3 py-4">
+              <button className="border-2 rounded-md px-4 py-2 w-[200px] max-w-[200px]">
+                Deposit Fees
+              </button>
+            </div>
+            <div className="cols-span-3 py-4">
+              <button
+                className="border-2 rounded-md px-4 py-2  w-[200px] max-w-[200px]"
+                // onClick={() => navigate(`/deposit-fee/${item.studentId}`)}
+              >
+                Deposit Fees
+              </button>
+            </div>
+            <div className="cols-span-3 py-4">
+              <button
+                className="border-2 rounded-md px-4 py-2  w-[200px] max-w-[200px]"
+                // onClick={() => navigate(`/deposit-fee/${item.studentId}`)}
+              >
+                Deposit Fees
+              </button>
+            </div>
+            <button
+              className="border-2 rounded-md px-4 py-2  w-[200px] max-w-[200px]"
+              // onClick={() =>
+              //   // navigate(`/payment-by-student/${item.studentId}`)
+              // }
+            >
+              View Payments
+            </button>
+
+            <button
+              className="border-2 rounded-md px-4 py-2"
+              // onClick={() =>
+              //   // navigate(`/add-discount-by-student/${item.studentId}`)
+              // }
+            >
+              Add Discount
+            </button>
+            <button
+              className="border-2 rounded-md px-4 py-2"
+              // onClick={() => navigate(`/add-library/${item.studentId}`)}
+            >
+              Add Library
+            </button>
+            <button
+              className="border-2 rounded-md px-4 py-2"
+              // onClick={() =>
+              //   navigate(`/library-by-student/${item.studentId}`)
+              // }
+            >
+              View Library
+            </button>
           </div>
         </div>
       </div>

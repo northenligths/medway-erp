@@ -50,7 +50,7 @@ const ViewAdmission = () => {
       });
       toast.success("Student Enrolled Successfully");
       getEnquiries();
-      navigate("/students")
+      navigate("/students");
     } catch (err) {
       console.log("err", err);
       toast.error(err.response.data.error);
@@ -79,12 +79,18 @@ const ViewAdmission = () => {
             </button>
           </div>
         </div>
-        <div className="mt-8 flow-root">
+        <div className="mt-8 flow-root shadow-lg">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
-                <thead>
+                <thead className="border-2 border-gray-500">
                   <tr>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                    >
+                      Serial No.
+                    </th>
                     <th
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
@@ -179,7 +185,7 @@ const ViewAdmission = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
+                <tbody className=" border-2 border-gray-500">
                   {loading ? (
                     <div className="items-center flex justify-center py-4">
                       {" "}
@@ -191,8 +197,14 @@ const ViewAdmission = () => {
                       />{" "}
                     </div>
                   ) : (
-                    enquiries.map((item) => (
-                      <tr key={item.enquiryId}>
+                    enquiries.map((item, index) => (
+                      <tr
+                        key={item.enquiryId}
+                        className="border-2 border-gray-500"
+                      >
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          <div className="text-gray-900">{index + 1}</div>
+                        </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="text-gray-900">{item.enquiryId}</div>
                         </td>

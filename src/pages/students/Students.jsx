@@ -70,6 +70,12 @@ const Students = () => {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                     >
+                      Serial No.
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                    >
                       Student Status
                     </th>
                     <th
@@ -133,6 +139,12 @@ const Students = () => {
                       Lead Source
                     </th>
                     <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Library Status
+                    </th>
+                    {/* <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
@@ -215,7 +227,7 @@ const Students = () => {
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
                       Total Installments
-                    </th>
+                    </th> */}
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -236,8 +248,11 @@ const Students = () => {
                       />{" "}
                     </div>
                   ) : (
-                    students?.map((item) => (
+                    students?.map((item, index) => (
                       <tr key={item.batchId}>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          <div className="text-gray-900">{index + 1}</div>
+                        </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="text-gray-900">
                             {item.studentStatus}
@@ -275,6 +290,9 @@ const Students = () => {
                           {item.leadSource}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.libraryStatus}
+                        </td>
+                        {/* <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.batchName.batchName}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
@@ -317,10 +335,10 @@ const Students = () => {
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item?.feesDetails.totalInstallments}
-                        </td>
+                        </td> */}
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <>
-                            <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            <div className="mt-10 grid md:grid-cols-12 gap-x-3 gap-y-8 sm:grid-cols-6">
                               <div className="sm:col-span-3 md:col-span-4">
                                 <ImBin
                                   className="cursor-pointer"
@@ -350,12 +368,14 @@ const Students = () => {
                                   color="black"
                                   fontSize={"20px"}
                                   onClick={() =>
-                                    navigate(`/student/${item.studentId}`)
+                                    navigate(`/student/${item.studentId}`, {
+                                      state: item,
+                                    })
                                   }
                                 />
                               </div>
                             </div>
-                            <div className="mt-10 grid md:grid-cols-12 gap-x-8 gap-y-8 sm:grid-cols-6">
+                            {/* <div className="mt-10 grid md:grid-cols-12 gap-x-8 gap-y-8 sm:grid-cols-6">
                               <div className="sm:col-span-3 md:col-span-4">
                                 <button
                                   className="border-2 rounded-md px-4 py-2"
@@ -390,8 +410,8 @@ const Students = () => {
                                   Add Discount
                                 </button>
                               </div>
-                            </div>
-                            <div className=" mt-2 grid md:grid-cols-12 gap-x-2 gap-y-6 sm:grid-cols-6">
+                            </div> */}
+                            {/* <div className=" mt-2 grid md:grid-cols-12 gap-x-2 gap-y-6 sm:grid-cols-6">
                               <div className="sm:col-span-3 md:col-span-4">
                                 <button
                                   className="border-2 rounded-md px-4 py-2"
@@ -414,7 +434,7 @@ const Students = () => {
                                   View Library
                                 </button>
                               </div>
-                            </div>
+                            </div> */}
                           </>
                         </td>
                       </tr>
