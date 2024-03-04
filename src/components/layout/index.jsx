@@ -43,14 +43,6 @@ const navigation = [
     dropdownName: "Admission",
   },
   {
-    name: "Batches",
-    href: "#",
-    icon: ClipboardDocumentCheckIcon,
-    current: false,
-    renderDropdown: true,
-    dropdownName: "Batches",
-  },
-  {
     name: "Courses",
     href: "#",
     icon: ComputerDesktopIcon,
@@ -59,6 +51,15 @@ const navigation = [
     dropdownName: "Courses",
   },
   {
+    name: "Batches",
+    href: "#",
+    icon: ClipboardDocumentCheckIcon,
+    current: false,
+    renderDropdown: true,
+    dropdownName: "Batches",
+  },
+
+  {
     name: "Students",
     href: "#",
     icon: UsersIcon,
@@ -66,14 +67,14 @@ const navigation = [
     renderDropdown: true,
     dropdownName: "Students",
   },
-  {
-    name: "Discounts",
-    href: "#",
-    icon: ChatBubbleBottomCenterIcon,
-    current: false,
-    renderDropdown: true,
-    dropdownName: "Discounts",
-  },
+  // {
+  //   name: "Discounts",
+  //   href: "#",
+  //   icon: ChatBubbleBottomCenterIcon,
+  //   current: false,
+  //   renderDropdown: true,
+  //   dropdownName: "Discounts",
+  // },
   {
     name: "Vouchers",
     href: "#",
@@ -97,6 +98,14 @@ const navigation = [
     current: false,
     renderDropdown: true,
     dropdownName: "Staffs",
+  },
+  {
+    name: "Reports",
+    href: "#",
+    icon: UserCircleIcon,
+    current: false,
+    renderDropdown: true,
+    dropdownName: "Reports",
   },
 ];
 
@@ -140,17 +149,6 @@ const students = [
   // },
 ];
 
-const discounts = [
-  {
-    name: "All Discounts",
-    href: "/discounts",
-  },
-  // {
-  //   name: "Add Student",
-  //   href: "/add-student",
-  // },
-];
-
 const vouchers = [
   {
     name: "All Vouchers",
@@ -180,6 +178,25 @@ const staffs = [
     name: "Add Staff",
     href: "/add-staff",
   },
+];
+
+const reports = [
+  {
+    name: "Student Reports",
+    href: "/student-report",
+  },
+  // {
+  //   name: "Enquiry Reports",
+  //   href: "/enquiry-report",
+  // },
+  // {
+  //   name: "Fees Reports",
+  //   href: "/fee-report",
+  // },
+  // {
+  //   name: "Discount Reports",
+  //   href: "/discount-report",
+  // },
 ];
 
 const userNavigation = [
@@ -511,25 +528,6 @@ export default function Layout({ children }) {
                                           />
                                           {item.name}
                                         </Disclosure.Button>
-                                        <Disclosure.Panel className="">
-                                          {discounts.map((item) => {
-                                            return (
-                                              <>
-                                                <div
-                                                  className="px-4 py-2 flex items-center cursor-pointer"
-                                                  onClick={() =>
-                                                    navigate(item.href)
-                                                  }
-                                                >
-                                                  <FaArrowRight className="text-lg" />
-                                                  <p className="px-2">
-                                                    {item.name}
-                                                  </p>
-                                                </div>
-                                              </>
-                                            );
-                                          })}
-                                        </Disclosure.Panel>
                                       </Disclosure>
                                     </>
                                   )}
@@ -672,6 +670,59 @@ export default function Layout({ children }) {
                                         </Disclosure.Button>
                                         <Disclosure.Panel className="">
                                           {staffs.map((item) => {
+                                            return (
+                                              <>
+                                                <div
+                                                  className="px-4 py-2 flex items-center cursor-pointer"
+                                                  onClick={() =>
+                                                    navigate(item.href)
+                                                  }
+                                                >
+                                                  <FaArrowRight className="text-lg" />
+                                                  <p className="px-2">
+                                                    {item.name}
+                                                  </p>
+                                                </div>
+                                              </>
+                                            );
+                                          })}
+                                        </Disclosure.Panel>
+                                      </Disclosure>
+                                    </>
+                                  )}
+                                {item.renderDropdown &&
+                                  item.dropdownName === "Reports" && (
+                                    <>
+                                      <Disclosure
+                                        as="div"
+                                        className={classNames(
+                                          item.current
+                                            ? "bg-indigo-700 text-white"
+                                            : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                          "group rounded-md p-2 text-sm  font-semibold"
+                                        )}
+                                      >
+                                        <Disclosure.Button
+                                          className={classNames(
+                                            item.current
+                                              ? "bg-indigo-700 text-white"
+                                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                            "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                          )}
+                                        >
+                                          <item.icon
+                                            className={classNames(
+                                              item.current
+                                                ? "text-white"
+                                                : "text-indigo-200 group-hover:text-white",
+                                              "h-6 w-6 shrink-0"
+                                            )}
+                                            aria-hidden="true"
+                                          />
+                                          {item.name}
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="">
+                                          {reports.map((item) => {
                                             return (
                                               <>
                                                 <div
@@ -982,25 +1033,6 @@ export default function Layout({ children }) {
                                       />
                                       {item.name}
                                     </Disclosure.Button>
-                                    <Disclosure.Panel className="">
-                                      {discounts.map((item) => {
-                                        return (
-                                          <>
-                                            <div
-                                              className="px-4 py-2 flex items-center cursor-pointer"
-                                              onClick={() =>
-                                                navigate(item.href)
-                                              }
-                                            >
-                                              <FaArrowRight className="text-lg" />
-                                              <p className="px-2">
-                                                {item.name}
-                                              </p>
-                                            </div>
-                                          </>
-                                        );
-                                      })}
-                                    </Disclosure.Panel>
                                   </Disclosure>
                                 </>
                               )}
@@ -1163,6 +1195,59 @@ export default function Layout({ children }) {
                                   </Disclosure>
                                 </>
                               )}
+                            {item.renderDropdown &&
+                              item.dropdownName === "Reports" && (
+                                <>
+                                  <Disclosure
+                                    as="div"
+                                    className={classNames(
+                                      item.current
+                                        ? "bg-indigo-700 text-white"
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      "group rounded-md p-2 text-sm  font-semibold"
+                                    )}
+                                  >
+                                    <Disclosure.Button
+                                      className={classNames(
+                                        item.current
+                                          ? "bg-indigo-700 text-white"
+                                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                        "group flex gap-x-3 rounded-md py-2 text-sm leading-6 font-semibold"
+                                      )}
+                                    >
+                                      <item.icon
+                                        className={classNames(
+                                          item.current
+                                            ? "text-white"
+                                            : "text-indigo-200 group-hover:text-white",
+                                          "h-6 w-6 shrink-0"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      {item.name}
+                                    </Disclosure.Button>
+                                    <Disclosure.Panel className="">
+                                      {reports.map((item) => {
+                                        return (
+                                          <>
+                                            <div
+                                              className="px-4 py-2 flex items-center cursor-pointer"
+                                              onClick={() =>
+                                                navigate(item.href)
+                                              }
+                                            >
+                                              <FaArrowRight className="text-lg" />
+                                              <p className="px-2">
+                                                {item.name}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                      })}
+                                    </Disclosure.Panel>
+                                  </Disclosure>
+                                </>
+                              )}
                             {!item.renderDropdown && (
                               <Link
                                 to={item.href}
@@ -1192,19 +1277,6 @@ export default function Layout({ children }) {
                   </ul>
 
                   {/* Your Admission Management Disclosure */}
-                </li>
-
-                <li className="mt-auto">
-                  <a
-                    href="#"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
-                  >
-                    <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
-                      aria-hidden="true"
-                    />
-                    Settings
-                  </a>
                 </li>
               </ul>
             </nav>

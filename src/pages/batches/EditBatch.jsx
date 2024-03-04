@@ -30,12 +30,16 @@ const EditBatch = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await axiosClient.put(`/batch/${params.id}`, batches, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      toast("Batch Updated Successfully");
+      await axiosClient.put(
+        `/batch/${params.id}/course/${location.state.courseName.courseId}`,
+        batches,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success("Batch Updated Successfully");
       navigate("/all-batches");
     } catch (err) {
       console.log("err", err);

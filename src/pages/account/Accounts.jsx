@@ -73,12 +73,13 @@ const Accounts = () => {
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto flex items-center justify-between">
-            <h1 className="text-base font-semibold leading-6 text-gray-900">
+            <h1 className="text-center text-lg font-semibold leading-6 text-gray-900">
               Accounts
             </h1>
+
             <div className="flex gap-4 items-center">
               <div className="flex flex-col items-center gap-4">
-                <h1 className="text-xl font-semibold">Sort By Date</h1>
+                <p className="text-xl font-semibold mb-[-14px]">Sort By Date</p>
                 <div className="flex items-center gap-4">
                   <div className="flex-col flex items-center">
                     <label className="py-2">Start Date</label>
@@ -98,14 +99,14 @@ const Accounts = () => {
                       onChange={(e) => setEndDate(e.target.value)}
                     />
                   </div>
-                </div>
-                <div>
-                  <button
-                    className="border-2 px-4 rounded-lg py-2"
-                    onClick={sortAccountsByDate}
-                  >
-                    Apply Filter
-                  </button>
+                  <div className="flex items-center pt-10">
+                    <button
+                      className="border-2 px-4 rounded-lg py-1"
+                      onClick={sortAccountsByDate}
+                    >
+                      Apply Filter
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
