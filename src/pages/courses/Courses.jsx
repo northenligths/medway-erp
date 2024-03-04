@@ -6,6 +6,7 @@ import { Oval } from "react-loader-spinner";
 import { FaEye } from "react-icons/fa6";
 import { ImBin } from "react-icons/im";
 import { FaRegEdit } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const Courses = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const Courses = () => {
 
   const deleteCourse = async (id) => {
     try {
-      await axiosClient.delete(`removeCourse/${id}`, {
+      await axiosClient.delete(`course/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -38,6 +39,21 @@ const Courses = () => {
       getCourses();
     } catch (err) {
       console.log("err", err);
+    }
+  };
+
+  const revokeCourse = async (id) => {
+    try {
+      await axiosClient.put(`removeCourse/${id}`, "", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      getCourses();
+      toast.success("Course Marked Inactive");
+    } catch (err) {
+      console.log("err", err);
+      toast.error("Error in revoking course");
     }
   };
 
@@ -68,7 +84,7 @@ const Courses = () => {
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
-                <thead>
+                <thead className="border-2 border-gray-500">
                   <tr>
                     <th
                       scope="col"
@@ -102,7 +118,7 @@ const Courses = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
+                <tbody className="border-2 border-gray-500">
                   {loading ? (
                     <div className="items-center flex justify-center py-4">
                       {" "}
@@ -115,7 +131,10 @@ const Courses = () => {
                     </div>
                   ) : (
                     courses.map((item) => (
-                      <tr key={item.courseId}>
+                      <tr
+                        key={item.courseId}
+                        className="border-2 border-gray-500"
+                      >
                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                           <div className="flex items-center">
                             <div className="ml-4">
@@ -141,20 +160,6 @@ const Courses = () => {
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="flex items-center gap-8">
-                            <FaEye
-                              className="cursor-pointer"
-                              color="black"
-                              fontSize={"20px"}
-                              onClick={() =>
-                                navigate(`/course/${item.courseId}`)
-                              }
-                            />
-                            <ImBin
-                              className="cursor-pointer"
-                              color="red"
-                              fontSize={"20px"}
-                              onClick={() => deleteCourse(item.courseId)}
-                            />
                             <FaRegEdit
                               className="cursor-pointer"
                               color="black"
@@ -165,6 +170,12 @@ const Courses = () => {
                                 })
                               }
                             />
+                            <button
+                              className="border-2 rounded-md px-4 py-2"
+                              onClick={() => revokeCourse(item.courseId)}
+                            >
+                              Revoke Course
+                            </button>
                             <button
                               className="border-2 rounded-md px-4 py-2"
                               onClick={() =>

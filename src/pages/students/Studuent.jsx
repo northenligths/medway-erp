@@ -364,7 +364,7 @@ const Student = () => {
           <div className="sm:col-span-3 md:col-span-3 mt-4">
             <div className="cols-span-3 py-4">
               <button
-                className="border-2 rounded-md  py-2  w-[200px] max-w-[200px] "
+                className="border-2 rounded-lg  py-2  w-[200px] max-w-[200px] bg-blue-600 text-white shadow-lg"
                 onClick={() =>
                   navigate(`/deposit-fee/${location.state.studentId}`, {
                     state: location.state,
@@ -375,57 +375,47 @@ const Student = () => {
               </button>
             </div>
             <div className="cols-span-3 py-4">
-              <button className="border-2 rounded-md px-4 py-2 w-[200px] max-w-[200px]">
-                Deposit Fees
+              <button
+                className="border-2 rounded-md px-4 py-2 w-[200px] max-w-[200px] bg-blue-600 text-white shadow-lg"
+                onClick={() =>
+                  navigate(`/payment-by-student/${location.state.studentId}`)
+                }
+              >
+                View Payments
               </button>
             </div>
             <div className="cols-span-3 py-4">
               <button
-                className="border-2 rounded-md px-4 py-2  w-[200px] max-w-[200px]"
-                // onClick={() => navigate(`/deposit-fee/${item.studentId}`)}
+                className="border-2 rounded-md px-4 py-2  w-[200px] max-w-[200px] bg-blue-600 text-white shadow-lg"
+                onClick={() =>
+                  navigate(
+                    `/add-discount-by-student/${location.state.studentId}`
+                  )
+                }
               >
-                Deposit Fees
+                Add Discount
               </button>
             </div>
             <div className="cols-span-3 py-4">
               <button
-                className="border-2 rounded-md px-4 py-2  w-[200px] max-w-[200px]"
-                // onClick={() => navigate(`/deposit-fee/${item.studentId}`)}
+                className="border-2 rounded-md px-4 py-2  w-[200px] max-w-[200px] bg-blue-600 text-white shadow-lg"
+                onClick={() =>
+                  navigate(`/add-library/${location.state.studentId}`)
+                }
               >
-                Deposit Fees
+                Add Library
               </button>
             </div>
-            <button
-              className="border-2 rounded-md px-4 py-2  w-[200px] max-w-[200px]"
-              // onClick={() =>
-              //   // navigate(`/payment-by-student/${item.studentId}`)
-              // }
-            >
-              View Payments
-            </button>
-
-            <button
-              className="border-2 rounded-md px-4 py-2"
-              // onClick={() =>
-              //   // navigate(`/add-discount-by-student/${item.studentId}`)
-              // }
-            >
-              Add Discount
-            </button>
-            <button
-              className="border-2 rounded-md px-4 py-2"
-              // onClick={() => navigate(`/add-library/${item.studentId}`)}
-            >
-              Add Library
-            </button>
-            <button
-              className="border-2 rounded-md px-4 py-2"
-              // onClick={() =>
-              //   navigate(`/library-by-student/${item.studentId}`)
-              // }
-            >
-              View Library
-            </button>
+            <div className="cols-span-3 py-4">
+              <button
+                className="border-2 rounded-md px-4 py-2  w-[200px] max-w-[200px] bg-blue-600 text-white shadow-lg"
+                onClick={() =>
+                  navigate(`/library-by-student/${location.state.studentId}`)
+                }
+              >
+                View Library
+              </button>
+            </div>
           </div>
         </div>
       </div>

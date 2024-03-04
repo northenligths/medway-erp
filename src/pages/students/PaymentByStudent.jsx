@@ -73,13 +73,13 @@ const PaymentByStudent = () => {
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto flex items-center justify-between">
-            <h1 className="text-base font-semibold leading-6 text-gray-900">
-              Fees
+            <h1 className="text-center text-lg font-semibold leading-6 text-gray-900">
+              Payment Details
             </h1>
 
             <div className="flex gap-4 items-center">
               <div className="flex flex-col items-center gap-4">
-                <h1 className="text-xl font-semibold">Sort By Date</h1>
+                <p className="text-xl font-semibold mb-[-14px]">Sort By Date</p>
                 <div className="flex items-center gap-4">
                   <div className="flex-col flex items-center">
                     <label className="py-2">Start Date</label>
@@ -99,14 +99,14 @@ const PaymentByStudent = () => {
                       onChange={(e) => setEndDate(e.target.value)}
                     />
                   </div>
-                </div>
-                <div>
-                  <button
-                    className="border-2 px-4 rounded-lg py-2"
-                    onClick={sortByPayment}
-                  >
-                    Apply Filter
-                  </button>
+                  <div className="flex items-center pt-10">
+                    <button
+                      className="border-2 px-4 rounded-lg py-1"
+                      onClick={sortByPayment}
+                    >
+                      Apply Filter
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -116,8 +116,14 @@ const PaymentByStudent = () => {
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
-                <thead>
+                <thead className="border-2 border-gray-500">
                   <tr>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                    >
+                      Serial No.
+                    </th>
                     <th
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
@@ -142,12 +148,7 @@ const PaymentByStudent = () => {
                     >
                       Mode of Payment
                     </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Number of Installment
-                    </th>
+
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -162,7 +163,7 @@ const PaymentByStudent = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
+                <tbody className=" bg-white border-2 border-gray-500 ">
                   {loading ? (
                     <div className="items-center flex justify-center py-4">
                       {" "}
@@ -174,8 +175,14 @@ const PaymentByStudent = () => {
                       />{" "}
                     </div>
                   ) : (
-                    payments?.map((item) => (
-                      <tr key={item.batchId}>
+                    payments?.map((item, index) => (
+                      <tr
+                        key={item.batchId}
+                        className="border-2 border-gray-500"
+                      >
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          <div className="text-gray-900">{index + 1}</div>
+                        </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="text-gray-900">{item.amount}</div>
                         </td>
@@ -193,9 +200,6 @@ const PaymentByStudent = () => {
                         </td>
 
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.numberOfInstallment}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.paymentDate}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
@@ -206,16 +210,6 @@ const PaymentByStudent = () => {
                               fontSize={"20px"}
                               onClick={() => deletePayment(item.paymentId)}
                             />
-                            <button
-                              className="border-2 rounded-md px-4 py-2"
-                              onClick={() =>
-                                navigate(
-                                  `/student-by-payment/${item.paymentId}`
-                                )
-                              }
-                            >
-                              View Students
-                            </button>
                           </div>
                         </td>
                       </tr>

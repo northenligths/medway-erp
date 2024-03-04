@@ -37,6 +37,7 @@ import Accounts from "./pages/account/Accounts";
 import Account from "./pages/account/Account";
 import Staffs from "./pages/staff/Staffs";
 import AddStaff from "./pages/staff/AddStaff";
+import StudentReports from "./pages/reports/StudentReports";
 
 function App() {
   return (
@@ -86,6 +87,7 @@ function App() {
       <Route path="/account-by-date/:date" element={<Account />} />
       <Route path="/staffs" element={<Staffs />} />
       <Route path="/add-staff" element={<AddStaff />} />
+      <Route path="/student-report" element={<StudentReports />} />
     </Routes>
   );
 }

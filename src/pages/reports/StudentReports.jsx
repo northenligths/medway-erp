@@ -3,87 +3,189 @@ import Layout from "../../components/layout";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { axiosClient } from "../../apiClient";
-import { Oval } from "react-loader-spinner";
 import { ImBin } from "react-icons/im";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
+import { FaRegEdit } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
+// import ReactExport from "react-export-excel";
 
-const ViewAdmission = () => {
+const StudentReports = () => {
   const navigate = useNavigate();
-  const [enquiries, setEnquiries] = useState([]);
+  const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const params = useParams();
   const token = localStorage.getItem("token");
+  const [courses, setCourses] = useState([]);
+  const [courseId, setCourseId] = useState();
+  const [batches, setBatches] = useState([]);
+  const [batchId, setBatchId] = useState();
 
-  const getEnquiries = async () => {
+  const getStudents = async () => {
     setLoading(true);
     try {
-      const res = await axiosClient.get("/enquiry?pageNumber=0&pageSize=20", {
+      const res = await axiosClient.get("student?pageNumber=0&pageSize=20 ", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setEnquiries(res.data.data.content);
+      setStudents(res.data.data.content);
     } catch (err) {
       console.log("err", err);
     }
     setLoading(false);
   };
-  const deleteEnquiry = async (id) => {
+
+  const getCourses = async () => {
     try {
-      await axiosClient.delete(`enquiry/${id}`, {
+      const res = await axiosClient.get("/course", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast.success("Deleted Successfully");
-      getEnquiries();
+      setCourses(res.data.data);
     } catch (err) {
       console.log("err", err);
     }
+    setLoading(false);
   };
-  const enrollStudent = async (id) => {
+
+  const getBatches = async (courseId) => {
     try {
-      await axiosClient.post(`enquiry/enroll/${id}`, "", {
+      const res = await axiosClient.get(`/batch/courseId/${courseId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast.success("Student Enrolled Successfully");
-      getEnquiries();
-      navigate("/students");
+      setBatches(res.data.data);
     } catch (err) {
       console.log("err", err);
-      toast.error(err.response.data.error);
     }
+    setLoading(false);
   };
+
   useEffect(() => {
-    getEnquiries();
+    getStudents();
+    getCourses();
   }, []);
 
+  useEffect(() => {
+    if (courseId) {
+      getBatches(courseId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseId]);
+
+  const getStudentsById = async () => {
+    setLoading(true);
+    try {
+      const res = await axiosClient.get(
+        `/student/batch/${batchId}?pageNumber=0&pageSize=10 `,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setStudents(res.data.data.content);
+    } catch (err) {
+      console.log("err", err);
+    }
+    setLoading(false);
+  };
+
+  //   const exportExcel = () => {
+  //     const excel = new ReactExport();
+  //     excel.addSheet("Student Report");
+  //     excel.addTable(students);
+  //     excel.save("my-report.xlsx");
+  //   };
   return (
     <Layout>
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
+          <div className="sm:flex-auto flex justify-between">
             <h1 className="text-base font-semibold leading-6 text-gray-900">
-              All Enquiries
+              Student Reports
             </h1>
-          </div>
-          <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-            <button
-              onClick={() => navigate("/new-admission")}
-              type="button"
-              className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Add Enquiry
-            </button>
+            {/* <button className="px-4 py-1 bg-blue-600 text-white">Export</button> */}
+            <div className="flex gap-10">
+              <div className="flex flex-col">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Courses
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="country"
+                    value={courseId}
+                    required
+                    onChange={(e) => {
+                      setCourseId(e.target.value);
+                    }}
+                    autoComplete="country-name"
+                    className=" min-w-[40px] px-2 block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  >
+                    <option>Select</option>
+                    {courses.map((item) => {
+                      return (
+                        <option key={item.courseId} value={item.courseId}>
+                          {item.courseName}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Batches
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="country"
+                    name="gender"
+                    required
+                    value={batchId}
+                    onChange={(e) => setBatchId(e.target.value)}
+                    autoComplete="country-name"
+                    className="  min-w-[40px] px-2 block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  >
+                    <option>Select</option>
+                    {batches.length > 0 ? (
+                      batches.map((item) => (
+                        <option key={item.batchId} value={item.batchId}>
+                          {item.batchName}
+                        </option>
+                      ))
+                    ) : (
+                      <option>No batches in this course</option>
+                    )}
+                  </select>
+                </div>
+              </div>
+              <div className="pt-7">
+                <button
+                  className="border px-4 py-2 rounded-md"
+                  onClick={getStudentsById}
+                >
+                  Apply Filter
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="mt-8 flow-root shadow-lg">
+        <div className="mt-8 flow-root">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
-                <thead className="border-2 border-gray-500">
+                <thead>
                   <tr>
                     <th
                       scope="col"
@@ -95,7 +197,13 @@ const ViewAdmission = () => {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                     >
-                      Enquiry Id
+                      Student Status
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                    >
+                      Student Id
                     </th>
                     <th
                       scope="col"
@@ -119,7 +227,7 @@ const ViewAdmission = () => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Contact Number
+                      Contact No.
                     </th>
                     <th
                       scope="col"
@@ -131,14 +239,7 @@ const ViewAdmission = () => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Date of birth
-                    </th>
-
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Gender
+                      Date of Birth
                     </th>
                     <th
                       scope="col"
@@ -150,42 +251,29 @@ const ViewAdmission = () => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Lead Source
+                      Gender
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Batch Name
-                    </th>
-
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Batch Start Date
+                      Batch
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Batch End Date
+                      Course
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Batch Fees
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Actions
+                      Library Status
                     </th>
                   </tr>
                 </thead>
-                <tbody className="border-2 border-gray-500">
+                <tbody className="divide-y divide-gray-200 bg-white">
                   {loading ? (
                     <div className="items-center flex justify-center py-4">
                       {" "}
@@ -197,16 +285,18 @@ const ViewAdmission = () => {
                       />{" "}
                     </div>
                   ) : (
-                    enquiries.map((item, index) => (
-                      <tr
-                        key={item.enquiryId}
-                        className="border-2 border-gray-500"
-                      >
+                    students?.map((item, index) => (
+                      <tr key={item.batchId}>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="text-gray-900">{index + 1}</div>
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          <div className="text-gray-900">{item.enquiryId}</div>
+                          <div className="text-gray-900">
+                            {item.studentStatus}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          <div className="text-gray-900">{item.studentId}</div>
                         </td>
 
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
@@ -227,43 +317,20 @@ const ViewAdmission = () => {
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.dateOfBirth}
                         </td>
-
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.gender}
-                        </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.category}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.leadSource}
+                          {item.gender}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.batchName.batchName}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.batchName.startDate}
+                          {item.batchName.courseName.courseName}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.batchName.batchEndDate}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.batchName.batchFees}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          <div className="flex items-center gap-8">
-                            <button
-                              className="border-2 rounded-md px-4 py-2"
-                              onClick={() => enrollStudent(item.enquiryId)}
-                            >
-                              Enroll Student
-                            </button>
-                            <ImBin
-                              className="cursor-pointer"
-                              color="red"
-                              fontSize={"20px"}
-                              onClick={() => deleteEnquiry(item.enquiryId)}
-                            />
-                          </div>
+                          {item.libraryStatus}
                         </td>
                       </tr>
                     ))
@@ -278,4 +345,4 @@ const ViewAdmission = () => {
   );
 };
 
-export default ViewAdmission;
+export default StudentReports;

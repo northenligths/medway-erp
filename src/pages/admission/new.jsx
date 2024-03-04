@@ -231,6 +231,7 @@ const NewAdmission = () => {
                       <input
                         type="text"
                         name="emailId"
+                        placeholder="Email must be unique**"
                         onChange={handleChange}
                         id="city"
                         autoComplete="address-level2"
