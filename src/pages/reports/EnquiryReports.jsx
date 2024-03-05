@@ -3,19 +3,16 @@ import Layout from "../../components/layout";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { axiosClient } from "../../apiClient";
+import { Oval } from "react-loader-spinner";
 import { ImBin } from "react-icons/im";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
-import { Oval } from "react-loader-spinner";
-import { FaRegEdit } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { useDownloadExcel } from "react-export-table-to-excel";
 
-const StudentReports = () => {
+const EnquiryReports = () => {
   const navigate = useNavigate();
-  const [students, setStudents] = useState([]);
+  const [enquiries, setEnquiries] = useState([]);
   const [loading, setLoading] = useState(false);
-  const params = useParams();
   const token = localStorage.getItem("token");
   const [courses, setCourses] = useState([]);
   const [courseId, setCourseId] = useState();
@@ -23,15 +20,15 @@ const StudentReports = () => {
   const [batchId, setBatchId] = useState();
   const tableRef = useRef(null);
 
-  const getStudents = async () => {
+  const getEnquiries = async () => {
     setLoading(true);
     try {
-      const res = await axiosClient.get("student?pageNumber=0&pageSize=20 ", {
+      const res = await axiosClient.get("/enquiry?pageNumber=0&pageSize=20", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setStudents(res.data.data.content);
+      setEnquiries(res.data.data.content);
     } catch (err) {
       console.log("err", err);
     }
@@ -67,7 +64,7 @@ const StudentReports = () => {
   };
 
   useEffect(() => {
-    getStudents();
+    getEnquiries();
     getCourses();
   }, []);
 
@@ -78,7 +75,7 @@ const StudentReports = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseId]);
 
-  const getStudentsById = async () => {
+  const getEnquiriesById = async () => {
     setLoading(true);
     try {
       const res = await axiosClient.get(
@@ -89,7 +86,7 @@ const StudentReports = () => {
           },
         }
       );
-      setStudents(res.data.data.content);
+      setEnquiries(res.data.data.content);
     } catch (err) {
       console.log("err", err);
     }
@@ -108,7 +105,7 @@ const StudentReports = () => {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto flex justify-between">
             <h1 className="text-base font-semibold leading-6 text-gray-900">
-              Student Reports
+              Enquiry Reports
             </h1>
             {/* <button className="px-4 py-1 bg-blue-600 text-white">Export</button> */}
             <div className="flex gap-10 items-center">
@@ -180,7 +177,7 @@ const StudentReports = () => {
           <div className="pt-7">
             <button
               className="border px-4 py-2 rounded-md"
-              onClick={getStudentsById}
+              onClick={getEnquiriesById}
             >
               Apply Filter
             </button>
@@ -194,7 +191,7 @@ const StudentReports = () => {
             </button>
           </div>
         </div>
-        <div className="mt-8 flow-root">
+        <div className="mt-8 flow-root shadow-lg">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <table
@@ -213,13 +210,7 @@ const StudentReports = () => {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                     >
-                      Student Status
-                    </th>
-                    <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                    >
-                      Student Id
+                      Enquiry Id
                     </th>
                     <th
                       scope="col"
@@ -243,7 +234,7 @@ const StudentReports = () => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Contact No.
+                      Contact Number
                     </th>
                     <th
                       scope="col"
@@ -255,14 +246,9 @@ const StudentReports = () => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Date of Birth
+                      Date of birth
                     </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Category
-                    </th>
+
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -273,19 +259,21 @@ const StudentReports = () => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Batch
+                      Category
                     </th>
+
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Course
+                      Batch Name
                     </th>
+
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Library Status
+                      Course Name
                     </th>
                   </tr>
                 </thead>
@@ -301,21 +289,16 @@ const StudentReports = () => {
                       />{" "}
                     </div>
                   ) : (
-                    students?.map((item, index) => (
+                    enquiries.map((item, index) => (
                       <tr
-                        key={item.batchId}
+                        key={item.enquiryId}
                         className="border-2 border-gray-500"
                       >
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="text-gray-900">{index + 1}</div>
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          <div className="text-gray-900">
-                            {item.studentStatus}
-                          </div>
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          <div className="text-gray-900">{item.studentId}</div>
+                          <div className="text-gray-900">{item.enquiryId}</div>
                         </td>
 
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
@@ -336,20 +319,19 @@ const StudentReports = () => {
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.dateOfBirth}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.category}
-                        </td>
+
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.gender}
                         </td>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          {item.category}
+                        </td>
+
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.batchName.batchName}
                         </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           {item.batchName.courseName.courseName}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                          {item.libraryStatus}
                         </td>
                       </tr>
                     ))
@@ -364,4 +346,4 @@ const StudentReports = () => {
   );
 };
 
-export default StudentReports;
+export default EnquiryReports;

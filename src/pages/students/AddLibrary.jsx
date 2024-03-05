@@ -4,6 +4,7 @@ import { axiosClient } from "../../apiClient";
 import { Oval } from "react-loader-spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaArrowLeft } from "react-icons/fa";
 
 const AddLibrary = () => {
   const [loading, setLoading] = useState(false);
@@ -34,6 +35,7 @@ const AddLibrary = () => {
         },
       });
       toast.success("Library Added Successfully");
+      navigate(-1);
     } catch (err) {
       console.log("err", err);
       toast.error("Unable to add library");
@@ -44,7 +46,17 @@ const AddLibrary = () => {
   return (
     <Layout>
       <form onSubmit={addLibrary}>
-        <div className="space-y-12">
+        <div className="space-y-2">
+          <div
+            className="flex items-center pl-6 gap-1"
+            onClick={() => navigate(-1)}
+          >
+            <FaArrowLeft className="text-red-600" />
+
+            <button className="text-red-600 text-lg font-bold py-2">
+              Back
+            </button>
+          </div>
           <div className="">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
               Add Library

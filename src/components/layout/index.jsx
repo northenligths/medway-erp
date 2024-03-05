@@ -185,10 +185,10 @@ const reports = [
     name: "Student Reports",
     href: "/student-report",
   },
-  // {
-  //   name: "Enquiry Reports",
-  //   href: "/enquiry-report",
-  // },
+  {
+    name: "Enquiry Reports",
+    href: "/enquiry-report",
+  },
   // {
   //   name: "Fees Reports",
   //   href: "/fee-report",
@@ -749,19 +749,6 @@ export default function Layout({ children }) {
 
                           {/* Your Admission Management Disclosure */}
                         </li>
-
-                        <li className="mt-auto">
-                          <a
-                            href="#"
-                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
-                          >
-                            <Cog6ToothIcon
-                              className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
-                              aria-hidden="true"
-                            />
-                            Settings
-                          </a>
-                        </li>
                       </ul>
                     </nav>
                   </div>
@@ -1318,14 +1305,6 @@ export default function Layout({ children }) {
                 />
               </form>
               <div className="flex items-center gap-x-4 lg:gap-x-6">
-                <button
-                  type="button"
-                  className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-
                 {/* Separator */}
                 <div
                   className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"

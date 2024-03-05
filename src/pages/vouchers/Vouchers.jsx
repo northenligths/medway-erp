@@ -79,7 +79,7 @@ const Vouchers = () => {
             </h1>
             <div className="flex gap-4 items-center">
               <div className="flex flex-col items-center gap-4">
-                <h1 className="text-xl font-semibold">Sort By Date</h1>
+                <p className="text-xl font-semibold mb-[-14px]">Sort By Date</p>
                 <div className="flex items-center gap-4">
                   <div className="flex-col flex items-center">
                     <label className="py-2">Start Date</label>
@@ -99,14 +99,14 @@ const Vouchers = () => {
                       onChange={(e) => setEndDate(e.target.value)}
                     />
                   </div>
-                </div>
-                <div>
-                  <button
-                    className="border-2 px-4 rounded-lg py-2"
-                    onClick={sortVoucherByDate}
-                  >
-                    Apply Filter
-                  </button>
+                  <div className="flex items-center pt-10">
+                    <button
+                      className="border-2 px-4 rounded-lg py-1"
+                      onClick={sortVoucherByDate}
+                    >
+                      Apply Filter
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -118,6 +118,12 @@ const Vouchers = () => {
               <table className="min-w-full divide-y divide-gray-300">
                 <thead>
                   <tr>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                    >
+                      Serial No.
+                    </th>
                     <th
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
@@ -180,8 +186,11 @@ const Vouchers = () => {
                       />{" "}
                     </div>
                   ) : (
-                    vouchers.map((item) => (
+                    vouchers.map((item, index) => (
                       <tr key={item.batchId}>
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          <div className="text-gray-900">{index + 1}</div>
+                        </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="text-gray-900">
                             {item.voucherReason}
@@ -213,14 +222,6 @@ const Vouchers = () => {
                               color="red"
                               fontSize={"20px"}
                               onClick={() => deleteVoucher(item.voucherId)}
-                            />
-                            <FaEye
-                              className="cursor-pointer"
-                              color="black"
-                              fontSize={"20px"}
-                              onClick={() =>
-                                navigate(`/voucher/${item.voucherId}`)
-                              }
                             />
                           </div>
                         </td>

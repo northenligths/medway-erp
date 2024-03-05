@@ -5,6 +5,7 @@ import { Oval } from "react-loader-spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 
 const Student = () => {
   const token = localStorage.getItem("token");
@@ -36,6 +37,11 @@ const Student = () => {
   return (
     <Layout>
       <div className="">
+        <div className="flex items-center gap-1" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="text-red-600" />
+
+          <button className="text-red-600 text-lg font-bold py-2">Back</button>
+        </div>
         <div className="grid md:grid-cols-12 gap-x-24 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3 md:col-span-9">
             <div className="grid md:grid-cols-6 gap-x-6 gap-y-8 sm:grid-cols-6">

@@ -8,6 +8,7 @@ import { ImBin } from "react-icons/im";
 import { FaRegEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { Oval } from "react-loader-spinner";
+import { FaArrowLeft } from "react-icons/fa";
 
 const Account = () => {
   const navigate = useNavigate();
@@ -75,6 +76,11 @@ const Account = () => {
   return (
     <Layout>
       <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-1" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="text-red-600" />
+
+          <button className="text-red-600 text-lg font-bold py-2">Back</button>
+        </div>
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto flex items-center justify-between">
             <h1 className="text-base font-semibold leading-6 text-gray-900">
@@ -119,7 +125,7 @@ const Account = () => {
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
-                <thead>
+                <thead className="border-2 border-gray-500">
                   <tr>
                     <th
                       scope="col"
@@ -171,7 +177,7 @@ const Account = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
+                <tbody className="border-2 border-gray-500">
                   {loading ? (
                     <div className="items-center flex justify-center py-4">
                       {" "}
@@ -184,7 +190,10 @@ const Account = () => {
                     </div>
                   ) : (
                     accounts.map((item) => (
-                      <tr key={item.batchId}>
+                      <tr
+                        key={item.batchId}
+                        className="border-2 border-gray-500"
+                      >
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="text-gray-900">
                             {item.onlineCredit}

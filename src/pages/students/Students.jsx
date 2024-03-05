@@ -64,7 +64,7 @@ const Students = () => {
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
-                <thead>
+                <thead className="border-2 border-gray-500">
                   <tr>
                     <th
                       scope="col"
@@ -236,7 +236,7 @@ const Students = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
+                <tbody className="border-2 border-gray-500">
                   {loading ? (
                     <div className="items-center flex justify-center py-4">
                       {" "}
@@ -249,7 +249,10 @@ const Students = () => {
                     </div>
                   ) : (
                     students?.map((item, index) => (
-                      <tr key={item.batchId}>
+                      <tr
+                        key={item.batchId}
+                        className="border-2 border-gray-500"
+                      >
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="text-gray-900">{index + 1}</div>
                         </td>
