@@ -90,6 +90,12 @@ const Courses = () => {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                     >
+                      Serial No
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                    >
                       Course Id
                     </th>
                     <th
@@ -130,11 +136,20 @@ const Courses = () => {
                       />{" "}
                     </div>
                   ) : (
-                    courses.map((item) => (
+                    courses.map((item, index) => (
                       <tr
                         key={item.courseId}
                         className="border-2 border-gray-500"
                       >
+                        <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
+                          <div className="flex items-center">
+                            <div className="ml-4">
+                              <div className="font-medium text-gray-900">
+                                {index + 1}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                           <div className="flex items-center">
                             <div className="ml-4">

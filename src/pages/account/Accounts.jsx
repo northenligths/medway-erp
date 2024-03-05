@@ -116,8 +116,14 @@ const Accounts = () => {
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <table className="min-w-full divide-y divide-gray-300">
-                <thead>
+                <thead className="border-2 border-gray-500">
                   <tr>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                    >
+                      Serial No
+                    </th>
                     <th
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
@@ -175,7 +181,7 @@ const Accounts = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
+                <tbody className="border-2 border-gray-500">
                   {loading ? (
                     <div className="items-center flex justify-center py-4">
                       {" "}
@@ -187,8 +193,14 @@ const Accounts = () => {
                       />{" "}
                     </div>
                   ) : (
-                    accounts.map((item) => (
-                      <tr key={item.batchId}>
+                    accounts.map((item, index) => (
+                      <tr
+                        key={item.batchId}
+                        className="border-2 border-gray-500"
+                      >
+                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                          <div className="text-gray-900">{index + 1}</div>
+                        </td>
                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                           <div className="text-gray-900">
                             {item.onlineCredit}

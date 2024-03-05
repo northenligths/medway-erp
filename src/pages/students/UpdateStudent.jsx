@@ -357,6 +357,33 @@ const UpdateStudent = () => {
                   htmlFor="country"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
+                  Courses
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="country"
+                    name="professonalCourse"
+                    value={student.professonalCourse}
+                    onChange={handleChange}
+                    autoComplete="country-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  >
+                    <option>Select</option>
+                    {courses.map((item) => {
+                      return (
+                        <option key={item.courseId} value={item.courseName}>
+                          {item.courseName}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+              <div className="sm:col-span-2 md:col-span-4">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Batches
                 </label>
                 <div className="mt-2">
@@ -374,33 +401,6 @@ const UpdateStudent = () => {
                       return (
                         <option key={item.batchId} value={item.batchId}>
                           {item.batchName}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-              </div>
-              <div className="sm:col-span-2 md:col-span-4">
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Courses
-                </label>
-                <div className="mt-2">
-                  <select
-                    id="country"
-                    name="professonalCourse"
-                    value={student.professonalCourse}
-                    onChange={handleChange}
-                    autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                  >
-                    <option>Select</option>
-                    {courses.map((item) => {
-                      return (
-                        <option key={item.courseId} value={item.courseName}>
-                          {item.courseName}
                         </option>
                       );
                     })}

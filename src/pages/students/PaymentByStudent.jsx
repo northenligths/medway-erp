@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 import { FaRegEdit } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
+
 const PaymentByStudent = () => {
   const navigate = useNavigate();
   const [payments, setPayments] = useState([]);
@@ -71,6 +73,11 @@ const PaymentByStudent = () => {
   return (
     <Layout>
       <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-1" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="text-red-600" />
+
+          <button className="text-red-600 text-lg font-bold py-2">Back</button>
+        </div>
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto flex items-center justify-between">
             <h1 className="text-center text-lg font-semibold leading-6 text-gray-900">

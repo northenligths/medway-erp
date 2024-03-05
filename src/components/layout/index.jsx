@@ -185,10 +185,10 @@ const reports = [
     name: "Student Reports",
     href: "/student-report",
   },
-  // {
-  //   name: "Enquiry Reports",
-  //   href: "/enquiry-report",
-  // },
+  {
+    name: "Enquiry Reports",
+    href: "/enquiry-report",
+  },
   // {
   //   name: "Fees Reports",
   //   href: "/fee-report",

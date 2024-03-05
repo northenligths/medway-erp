@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ImBin } from "react-icons/im";
 import { FaEye } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 
 const LibraryByStudent = () => {
   const navigate = useNavigate();
@@ -53,6 +54,14 @@ const LibraryByStudent = () => {
   return (
     <Layout>
       <div className="px-4 sm:px-6 lg:px-8">
+        <div
+          className="flex items-center pl-6 gap-1"
+          onClick={() => navigate(-1)}
+        >
+          <FaArrowLeft className="text-red-600" />
+
+          <button className="text-red-600 text-lg font-bold py-2">Back</button>
+        </div>
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-base font-semibold leading-6 text-gray-900">
@@ -66,6 +75,12 @@ const LibraryByStudent = () => {
               <table className="min-w-full divide-y divide-gray-300">
                 <thead className="border-2 border-gray-500">
                   <tr>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                    >
+                      Serial No.
+                    </th>
                     <th
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
@@ -98,11 +113,20 @@ const LibraryByStudent = () => {
                       />{" "}
                     </div>
                   ) : (
-                    library.map((item) => (
+                    library.map((item, index) => (
                       <tr
                         key={item.courseId}
                         className="border-2 border-gray-500"
                       >
+                        <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
+                          <div className="flex items-center">
+                            <div className="ml-4">
+                              <div className="font-medium text-gray-900">
+                                {index + 1}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                           <div className="flex items-center">
                             <div className="ml-4">

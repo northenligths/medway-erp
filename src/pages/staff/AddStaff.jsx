@@ -42,6 +42,7 @@ const AddStaff = () => {
         },
       });
       toast.success("Staff Added Successfully");
+      navigate("/staffs");
     } catch (err) {
       console.log("err", err);
       toast.error("Unable to add staff");

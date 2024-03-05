@@ -4,6 +4,7 @@ import { Oval } from "react-loader-spinner";
 import { axiosClient } from "../../apiClient";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaArrowLeft } from "react-icons/fa";
 
 const AddBatch = () => {
   const [loading, setLoading] = useState(false);
@@ -46,7 +47,15 @@ const AddBatch = () => {
   return (
     <Layout>
       <form onSubmit={addBatch}>
-        <div className="space-y-12">
+        <div className="space-y-2">
+          <div className="flex items-center gap-1" onClick={() => navigate(-1)}>
+            <FaArrowLeft className="text-red-600" />
+
+            <button className="text-red-600 text-lg font-bold py-2">
+              Back
+            </button>
+          </div>
+
           <div className="">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
               New Batch

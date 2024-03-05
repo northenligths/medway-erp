@@ -175,12 +175,7 @@ const Batches = () => {
                             fontSize={"20px"}
                             onClick={() => navigate(`/course/${item.courseId}`)}
                           /> */}
-                            <ImBin
-                              className="cursor-pointer"
-                              color="red"
-                              fontSize={"20px"}
-                              onClick={() => deleteBatch(item.batchId)}
-                            />
+
                             <FaRegEdit
                               className="cursor-pointer"
                               color="black"

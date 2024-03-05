@@ -8,6 +8,7 @@ import { ImBin } from "react-icons/im";
 import { FaRegEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { Oval } from "react-loader-spinner";
+import { FaArrowLeft } from "react-icons/fa";
 
 const BatchesByCourse = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const BatchesByCourse = () => {
   const getBatches = async () => {
     setLoading(true);
     try {
-      const res = await axiosClient.get("/batch", {
+      const res = await axiosClient.get(`/batch/courseId/${params.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -66,6 +67,11 @@ const BatchesByCourse = () => {
   return (
     <Layout>
       <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-1" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="text-red-600" />
+
+          <button className="text-red-600 text-lg font-bold py-2">Back</button>
+        </div>
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-base font-semibold leading-6 text-gray-900">
@@ -73,6 +79,7 @@ const BatchesByCourse = () => {
             </h1>
           </div>
         </div>
+
         <div className="mt-8 flow-root">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -176,12 +183,7 @@ const BatchesByCourse = () => {
                             fontSize={"20px"}
                             onClick={() => navigate(`/course/${item.courseId}`)}
                           /> */}
-                            <ImBin
-                              className="cursor-pointer"
-                              color="red"
-                              fontSize={"20px"}
-                              onClick={() => deleteBatch(item.batchId)}
-                            />
+
                             <FaRegEdit
                               className="cursor-pointer"
                               color="black"
