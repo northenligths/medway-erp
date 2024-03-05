@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 import { FaRegEdit } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
-import { CSVLink } from "react-csv";
 import { useDownloadExcel } from "react-export-table-to-excel";
 
 const StudentReports = () => {
