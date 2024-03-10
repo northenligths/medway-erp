@@ -42,7 +42,10 @@ const Student = () => {
 
           <button className="text-red-600 text-lg font-bold py-2">Back</button>
         </div>
-        <div className="grid md:grid-cols-12 gap-x-24 gap-y-8 sm:grid-cols-6">
+        <h1 className="text-center py-2 text-[30px] font-bold">
+          Student Details
+        </h1>
+        <div className="grid md:grid-cols-12 gap-x-24 gap-y-8 sm:grid-cols-6  shadow-lg px-4 rounded-lg border py-4">
           <div className="sm:col-span-3 md:col-span-9">
             <div className="grid md:grid-cols-6 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3 md:col-span-3">
