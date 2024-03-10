@@ -34,7 +34,7 @@ const LibraryByStudent = () => {
 
   const deleteLibrary = async (id) => {
     try {
-      await axiosClient.delete(`library/${id}`, {
+      await axiosClient.post(`library/student/${id}`, "", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

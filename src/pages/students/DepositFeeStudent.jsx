@@ -21,13 +21,23 @@ const DepositFeeStudent = () => {
 
   const [isVisible, setIsVisible] = useState(true);
 
-  const reloadComponent = () => {
-    setIsVisible(false);
-
-    // Reload the component after 3 seconds
-    setTimeout(() => {
-      setIsVisible(true);
-    }, 3000);
+  const getStudents = async () => {
+    setLoading(true);
+    try {
+      const res = await axiosClient.get(
+        `student/${location.state.studentId} `,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setStudents([res.data.data]);
+      console.log(res.data.data);
+    } catch (err) {
+      console.log("err", err);
+    }
+    setLoading(false);
   };
 
   const depositFee = async (values) => {
@@ -40,13 +50,18 @@ const DepositFeeStudent = () => {
       });
 
       toast.success("Fees Deposited Successfully");
-      reloadComponent();
+
+      getStudents();
     } catch (err) {
       console.log("err", err);
       toast.error("Unable to deposit fee");
     }
     setFeesLoading(false);
   };
+
+  useEffect(() => {
+    getStudents();
+  }, []);
 
   return (
     <Layout>
@@ -124,7 +139,7 @@ const DepositFeeStudent = () => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Payable Fees
+                      Remaining Fees
                     </th>
                     <th
                       scope="col"
@@ -152,7 +167,7 @@ const DepositFeeStudent = () => {
                       />{" "}
                     </div>
                   ) : (
-                    studentData?.map((item, index) => (
+                    students?.map((item, index) => (
                       <tr
                         key={item.batchId}
                         className="border-2 border-gray-500"
@@ -222,9 +237,12 @@ const DepositFeeStudent = () => {
           paymentDate: "",
         }}
         validationSchema={feesSchema}
-        onSubmit={depositFee}
+        onSubmit={async (values, { resetForm }) => {
+          await depositFee(values);
+          resetForm();
+        }}
       >
-        {({ errors, touched, handleChange }) => (
+        {({ errors, touched, handleChange, values }) => (
           <Form>
             <div className="mt-4">
               <div className="">
@@ -248,6 +266,7 @@ const DepositFeeStudent = () => {
                       <input
                         type="text"
                         name="amount"
+                        value={values.amount}
                         onChange={handleChange}
                         id="first-name"
                         autoComplete="given-name"
@@ -273,6 +292,7 @@ const DepositFeeStudent = () => {
                         id="country"
                         name="modeOfPayment"
                         onChange={handleChange}
+                        value={values.modeOfPayment}
                         autoComplete="country-name"
                         className=" px-2 block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600  sm:text-sm sm:leading-6"
                       >
@@ -289,26 +309,6 @@ const DepositFeeStudent = () => {
                   </div>
                   <div className="sm:col-span-3 md:col-span-4">
                     <label
-                      htmlFor="last-name"
-                      className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                      Installments
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        type="text"
-                        name="numberOfInstallment"
-                        onChange={handleChange}
-                        id="last-name"
-                        autoComplete="family-name"
-                        className=" px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
-                  <div className="sm:col-span-3 md:col-span-4">
-                    <label
                       htmlFor="first-name"
                       className="block text-sm font-medium leading-6 text-gray-900 relative"
                     >
@@ -320,6 +320,7 @@ const DepositFeeStudent = () => {
                       <input
                         type="date"
                         name="paymentDate"
+                        value={values.paymentDate}
                         onChange={handleChange}
                         id="last-name"
                         autoComplete="family-name"
@@ -332,6 +333,8 @@ const DepositFeeStudent = () => {
                       ) : null}
                     </div>
                   </div>
+                </div>
+                <div className="mt-10 grid md:grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div className="sm:col-span-3 md:col-span-4">
                     <label
                       htmlFor="first-name"
@@ -345,6 +348,7 @@ const DepositFeeStudent = () => {
                       <input
                         type="text"
                         name="tutionFees"
+                        value={values.tutionFees}
                         onChange={handleChange}
                         id="last-name"
                         autoComplete="family-name"
@@ -368,6 +372,7 @@ const DepositFeeStudent = () => {
                       <input
                         type="text"
                         name="transactionId"
+                        value={values.transactionId}
                         onChange={handleChange}
                         id="last-name"
                         autoComplete="family-name"
@@ -382,6 +387,7 @@ const DepositFeeStudent = () => {
             <div className="mt-6 flex items-center justify-end gap-x-6">
               <button
                 type="submit"
+                // onClick={resetForm}
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 {feesLoading ? (
